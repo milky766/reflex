@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++   -std=c++14 -pthread -g -Wall -O0 -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/change_point_detection.dir/src/0630_changepointdetection.cpp.o  -o change_point_detection  -lrt libcontrol_board.a /usr/local/lib/libboost_system-mt.dylib /usr/local/lib/libboost_thread-mt.dylib /usr/local/lib/libbcm2835.a 

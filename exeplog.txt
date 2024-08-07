@@ -1,0 +1,122 @@
+start
+end
+left stretched
+agonist_feedback: 0.23029, when filtered_agonist_v_ is: 69086.9
+agonist_feedback: 0.729899, when filtered_agonist_v_ is: 218970
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 294437
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 249671
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 165935
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 87011.3
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 29992.7
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -3453.57
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -18251.1
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -19780.7
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -13743.2
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -6347.38
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -177.463
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 4584.39
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 7915.36
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 6706.11
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 3121
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: 359.165
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -1030.26
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -2165.59
+agonist_feedback: 0.981456, when filtered_agonist_v_ is: -4316
+stretch response end
+left stretched
+agonist_feedback: 0.0733792, when filtered_agonist_v_ is: 22013.8
+agonist_feedback: 0.115982, when filtered_agonist_v_ is: 34794.6
+agonist_feedback: 0.187578, when filtered_agonist_v_ is: 56273.3
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: 70579.9
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: 60779.5
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: 35730.1
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: 5353.88
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -23342
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -44340.5
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -56903.9
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -61123.4
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -59271.4
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -53195.2
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -44276.8
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -37104.4
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -31197.4
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -25710.1
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -22374.5
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -20021.8
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -18285.6
+agonist_feedback: 0.235266, when filtered_agonist_v_ is: -16454.7
+stretch response end
+right force
+antagonist_gto_feedback: 0.0404, when relative tension is: -1012.12
+antagonist_gto_feedback: 0.0825333, when relative tension is: -1024.76
+antagonist_gto_feedback: 0.1736, when relative tension is: -1052.08
+antagonist_gto_feedback: 0.214133, when relative tension is: -1064.24
+antagonist_gto_feedback: 0.290133, when relative tension is: -1087.04
+right stretched
+antagonist_feedback: 0.0979621, when filtered_antagonist_v_ is: 29388.6
+antagonist_gto_feedback: 0.330667, when relative tension is: -1099.2
+antagonist_feedback: 0.149982, when filtered_antagonist_v_ is: 44994.5
+antagonist_gto_feedback: 0.376267, when relative tension is: -1112.88
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 50247
+antagonist_gto_feedback: 0.381333, when relative tension is: -1114.4
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 45093.4
+antagonist_gto_feedback: 0.381333, when relative tension is: -1090.64
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 35329.5
+antagonist_gto_feedback: 0.381333, when relative tension is: -1060.84
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 25867.4
+antagonist_gto_feedback: 0.381333, when relative tension is: -965.92
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 18327.6
+antagonist_gto_feedback: 0.381333, when relative tension is: -901.84
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 12843.4
+antagonist_gto_feedback: 0.381333, when relative tension is: -761.68
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 9158.82
+antagonist_gto_feedback: 0.381333, when relative tension is: -692.16
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 7820.92
+antagonist_gto_feedback: 0.381333, when relative tension is: -577.36
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 8115.25
+antagonist_gto_feedback: 0.381333, when relative tension is: -527.12
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 7292.03
+antagonist_gto_feedback: 0.381333, when relative tension is: -504.36
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 4889.42
+antagonist_gto_feedback: 0.381333, when relative tension is: -522.32
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: 1518.97
+antagonist_gto_feedback: 0.381333, when relative tension is: -555.48
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: -1819.71
+antagonist_gto_feedback: 0.381333, when relative tension is: -633.84
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: -3568.04
+antagonist_gto_feedback: 0.381333, when relative tension is: -678.08
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: -3612.59
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: -3036.45
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: -2264.94
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: -1431.19
+antagonist_feedback: 0.16749, when filtered_antagonist_v_ is: -1175.22
+stretch response end
+force response end
+right stretched
+antagonist_feedback: 0.0842125, when filtered_antagonist_v_ is: 25263.8
+antagonist_feedback: 0.264257, when filtered_antagonist_v_ is: 79277.2
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: 116385
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: 102449
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: 50722.2
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -12088.1
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -63153.7
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -87812.5
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -85133.8
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -67945.3
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -48051.3
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -31414.8
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -20097.1
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -12447.4
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -7134.39
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -4263.51
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -2944.77
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -2332.13
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -2505.89
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -3062.37
+antagonist_feedback: 0.387951, when filtered_antagonist_v_ is: -3510.05
+stretch response end
+prepare to write data to file
+write finished
+
+
+ABOVE are gto feedback trigger muscle spindle feedback

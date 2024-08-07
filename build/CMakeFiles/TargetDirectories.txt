@@ -1,0 +1,6 @@
+/home/graywatch/Desktop/control_board_junqi/build/CMakeFiles/rebuild_cache.dir
+/home/graywatch/Desktop/control_board_junqi/build/CMakeFiles/Tensionmapping.dir
+/home/graywatch/Desktop/control_board_junqi/build/CMakeFiles/hysteresis_test.dir
+/home/graywatch/Desktop/control_board_junqi/build/CMakeFiles/edit_cache.dir
+/home/graywatch/Desktop/control_board_junqi/build/CMakeFiles/reflex_control.dir
+/home/graywatch/Desktop/control_board_junqi/build/CMakeFiles/control_board.dir
