@@ -27,23 +27,33 @@
 
 #define Sub_F_LIMIT 2500
 
-#define TensionMapping_Slope 0.149383
-#define TensionMapping_Intercept -774.441
+#define TensionMapping_Slope 0.848869
+#define TensionMapping_Intercept 0.426219
+
+#define Ia_a_cap 260
+#define Ia_anta_cap 2500 //threshhold for Ia_anta 調整が必要
+
+#define sub_Ia_a_cap 150
+#define sub_Ia_anta_cap 1.5
+
+#define G_Compensator_factor 1
+#define Harden_Magnitude 0.05
 
 //追加 ひずみゲージからの電気信号を力に変換するためのパラメータ,実験で求めて入力する
 #define tension_voltage_slope_agonist 0
 #define tension_voltage_slope_antagonist 0
 
 //追加 パラメータを手動入力する
-#define a_3_agonist 0
-#define a_2_agonist 0
-#define a_1_agonist 0
-#define a_0_agonist 0
+//1回目の実験、low(0.2-0.6MPa)
+#define a_3_agonist -0.20082
+#define a_2_agonist 7.001792
+#define a_1_agonist 0.256173
+#define a_0_agonist 0.91102
 
-#define a_3_antagonist 0
-#define a_2_antagonist 0
-#define a_1_antagonist 0
-#define a_0_antagonist 0
+#define a_3_antagonist 0.245392
+#define a_2_antagonist 0.348521
+#define a_1_antagonist -0.03648
+#define a_0_antagonist 6.317713
 
 // a_i_agonist_new = a_i_agonist/tension_voltage_slope_agonist
 
@@ -57,22 +67,11 @@
 #define a_1_antagonist_new 0
 #define a_0_antagonist_new 0
 
-#define  natural_length_slope_agonist 0
-#define  natural_length_slope_antagonist 0
+#define  natural_length_slope_agonist -60.1
+#define  natural_length_slope_antagonist -70.3
+#define  natural_length_intercept_agonist 170.1
+#define  natural_length_intercept_antagonist 178.5
 
-#define  natural_length_intercept_agonist 0
-#define  natural_length_intercept_antagonist 0
-
-
-
-#define Ia_a_cap 260
-#define Ia_anta_cap 2500 //threshhold for Ia_anta 調整が必要
-
-#define sub_Ia_a_cap 150
-#define sub_Ia_anta_cap 1.5
-
-#define G_Compensator_factor 1
-#define Harden_Magnitude 0.05
 
 class SpinalCord 
 {
@@ -154,8 +153,6 @@ public:
         uint16_t base_agonist_tension, base_antagonist_tension;
     };
 
-//追加
-    double calculateLength(int muscle_idx, uint16_t voltage, double pressure);
 
 
     // struct Length_Model{
@@ -184,7 +181,9 @@ public:
     Sensor_info get_agonist_sensor_info();
     Sensor_info get_antagonist_sensor_info();
     Sensor_info get_agonist_sensor_info_model();
-    Sensor_info get_antagonist_sensor_info_nodel();
+    Sensor_info get_antagonist_sensor_info_model();
+
+    double calculateLength(int muscle_idx, uint16_t voltage, double pressure);
 
     uint64_t micros();
 
@@ -235,7 +234,6 @@ public:
     int FeedbackFlag_Ia, FeedbackFlag_Ib;
 
     double G_Compensation;
-    double agonist_len_model_;
     double General_Harden;
 
 

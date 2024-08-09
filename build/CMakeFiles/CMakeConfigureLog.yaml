@@ -1,0 +1,219 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Windows - 10.0.22631 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+      2024/08/07 18:39:06 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+      
+      繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+      PrepareForBuild:
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppBuild.targets(513,5): warning MSB8003: WindowsSDKDir 繝励Ο繝代ユ繧｣縺悟ｮ夂ｾｩ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲ゆｸ\xc2\x80驛ｨ縺ｮ繝薙Ν繝・繝・・繝ｫ縺瑚ｦ九▽縺九ｉ縺ｪ縺・庄閭ｽ諤ｧ縺後≠繧翫∪縺吶\xc2\x80・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj]
+        讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\CompilerIdC.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      InitializeBuildStatus:
+        "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+      LINK : fatal error LNK1181: 蜈･蜉帙ヵ繧｡繧､繝ｫ 'kernel32.lib' 繧帝幕縺代∪縺帙ｓ縲・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj]
+      繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′邨ゆｺ・＠縺ｾ縺励◆ -- 螟ｱ謨励\xc2\x80・
+      
+      繝薙Ν繝峨↓螟ｱ謨励＠縺ｾ縺励◆縲・
+      
+      "C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+      (PrepareForBuild 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppBuild.targets(513,5): warning MSB8003: WindowsSDKDir 繝励Ο繝代ユ繧｣縺悟ｮ夂ｾｩ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲ゆｸ\xc2\x80驛ｨ縺ｮ繝薙Ν繝・繝・・繝ｫ縺瑚ｦ九▽縺九ｉ縺ｪ縺・庄閭ｽ諤ｧ縺後≠繧翫∪縺吶\xc2\x80・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj]
+      
+      
+      "C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+      (Link 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+        LINK : fatal error LNK1181: 蜈･蜉帙ヵ繧｡繧､繝ｫ 'kernel32.lib' 繧帝幕縺代∪縺帙ｓ縲・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj]
+      
+          1 蛟九・隴ｦ蜻・
+          1 繧ｨ繝ｩ繝ｼ
+      
+      邨碁℃譎る俣 00:00:00.71
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+      2024/08/07 18:39:07 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+      
+      繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+      PrepareForBuild:
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppBuild.targets(513,5): warning MSB8003: WindowsSDKDir 繝励Ο繝代ユ繧｣縺悟ｮ夂ｾｩ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲ゆｸ\xc2\x80驛ｨ縺ｮ繝薙Ν繝・繝・・繝ｫ縺瑚ｦ九▽縺九ｉ縺ｪ縺・庄閭ｽ諤ｧ縺後≠繧翫∪縺吶\xc2\x80・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj]
+        讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\CompilerIdC.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      InitializeBuildStatus:
+        "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+      LINK : fatal error LNK1181: 蜈･蜉帙ヵ繧｡繧､繝ｫ 'kernel32.lib' 繧帝幕縺代∪縺帙ｓ縲・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj]
+      繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′邨ゆｺ・＠縺ｾ縺励◆ -- 螟ｱ謨励\xc2\x80・
+      
+      繝薙Ν繝峨↓螟ｱ謨励＠縺ｾ縺励◆縲・
+      
+      "C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+      (PrepareForBuild 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppBuild.targets(513,5): warning MSB8003: WindowsSDKDir 繝励Ο繝代ユ繧｣縺悟ｮ夂ｾｩ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲ゆｸ\xc2\x80驛ｨ縺ｮ繝薙Ν繝・繝・・繝ｫ縺瑚ｦ九▽縺九ｉ縺ｪ縺・庄閭ｽ諤ｧ縺後≠繧翫∪縺吶\xc2\x80・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj]
+      
+      
+      "C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+      (Link 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+        LINK : fatal error LNK1181: 蜈･蜉帙ヵ繧｡繧､繝ｫ 'kernel32.lib' 繧帝幕縺代∪縺帙ｓ縲・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj]
+      
+          1 蛟九・隴ｦ蜻・
+          1 繧ｨ繝ｩ繝ｼ
+      
+      邨碁℃譎る俣 00:00:00.43
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+      2024/08/07 18:39:08 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+      
+      繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+      PrepareForBuild:
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppBuild.targets(513,5): warning MSB8003: WindowsSDKDir 繝励Ο繝代ユ繧｣縺悟ｮ夂ｾｩ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲ゆｸ\xc2\x80驛ｨ縺ｮ繝薙Ν繝・繝・・繝ｫ縺瑚ｦ九▽縺九ｉ縺ｪ縺・庄閭ｽ諤ｧ縺後≠繧翫∪縺吶\xc2\x80・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+        讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\CompilerIdCXX.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      InitializeBuildStatus:
+        "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+      LINK : fatal error LNK1181: 蜈･蜉帙ヵ繧｡繧､繝ｫ 'kernel32.lib' 繧帝幕縺代∪縺帙ｓ縲・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′邨ゆｺ・＠縺ｾ縺励◆ -- 螟ｱ謨励\xc2\x80・
+      
+      繝薙Ν繝峨↓螟ｱ謨励＠縺ｾ縺励◆縲・
+      
+      "C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+      (PrepareForBuild 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppBuild.targets(513,5): warning MSB8003: WindowsSDKDir 繝励Ο繝代ユ繧｣縺悟ｮ夂ｾｩ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲ゆｸ\xc2\x80驛ｨ縺ｮ繝薙Ν繝・繝・・繝ｫ縺瑚ｦ九▽縺九ｉ縺ｪ縺・庄閭ｽ諤ｧ縺後≠繧翫∪縺吶\xc2\x80・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      
+      
+      "C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+      (Link 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+        LINK : fatal error LNK1181: 蜈･蜉帙ヵ繧｡繧､繝ｫ 'kernel32.lib' 繧帝幕縺代∪縺帙ｓ縲・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      
+          1 蛟九・隴ｦ蜻・
+          1 繧ｨ繝ｩ繝ｼ
+      
+      邨碁℃譎る俣 00:00:00.45
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+      2024/08/07 18:39:09 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+      
+      繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+      PrepareForBuild:
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppBuild.targets(513,5): warning MSB8003: WindowsSDKDir 繝励Ο繝代ユ繧｣縺悟ｮ夂ｾｩ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲ゆｸ\xc2\x80驛ｨ縺ｮ繝薙Ν繝・繝・・繝ｫ縺瑚ｦ九▽縺九ｉ縺ｪ縺・庄閭ｽ諤ｧ縺後≠繧翫∪縺吶\xc2\x80・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+        讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\CompilerIdCXX.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      InitializeBuildStatus:
+        "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+      LINK : fatal error LNK1181: 蜈･蜉帙ヵ繧｡繧､繝ｫ 'kernel32.lib' 繧帝幕縺代∪縺帙ｓ縲・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′邨ゆｺ・＠縺ｾ縺励◆ -- 螟ｱ謨励\xc2\x80・
+      
+      繝薙Ν繝峨↓螟ｱ謨励＠縺ｾ縺励◆縲・
+      
+      "C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+      (PrepareForBuild 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppBuild.targets(513,5): warning MSB8003: WindowsSDKDir 繝励Ο繝代ユ繧｣縺悟ｮ夂ｾｩ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲ゆｸ\xc2\x80驛ｨ縺ｮ繝薙Ν繝・繝・・繝ｫ縺瑚ｦ九▽縺九ｉ縺ｪ縺・庄閭ｽ諤ｧ縺後≠繧翫∪縺吶\xc2\x80・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      
+      
+      "C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+      (Link 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+        LINK : fatal error LNK1181: 蜈･蜉帙ヵ繧｡繧､繝ｫ 'kernel32.lib' 繧帝幕縺代∪縺帙ｓ縲・[C:\\Users\\Mizuki\\University\\Reserch\\reflex\\control_board_Mizuki\\build\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      
+          1 蛟九・隴ｦ蜻・
+          1 繧ｨ繝ｩ繝ｼ
+      
+      邨碁℃譎る俣 00:00:00.43
+      
+      
+...

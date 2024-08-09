@@ -80,15 +80,6 @@ Muscle::muscle_state_t Muscle::printMuscle(Muscle::muscle_cmd_t muscle_cmd)
   };
 }
 
-Muscle::muscle_state_t Muscle::getMuscleState()
-{
-  return {.current_activation = current_activation_,
-          .current_pressure = board_->getInputPressure(adc_index_),
-          .current_tension_sensor_feedback = board_->getLoadCellData(tension_sensor_index_),
-          .current_ms_resistance = board_->getMuscleSpindleData(muscle_spindle_index_, mslo_mshi_)
-  };
-}
-
 void Muscle::initialize_valves(){
   board_->setOutputVoltage(dac_index_, 7.0);
   usleep(100);

@@ -10,6 +10,8 @@
 
 #define VALVE_NEUTRAL_VOLTAGE 5.0
 
+
+
 class Muscle {
 public:
   enum ControlMode {activation, pressure};
@@ -62,6 +64,7 @@ public:
   muscle_state_t printMuscle(muscle_cmd_t muscle_cmd);
   //得到muscle当前状态
   muscle_state_t getMuscleState();
+
 
 private:
   uint16_t adc_index_;

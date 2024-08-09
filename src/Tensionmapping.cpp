@@ -58,14 +58,14 @@ void StorageIntercept(double intercept){
     Muscle::muscle_cfg_t muscle_conf_4 = {.adc_index = 4, .dac_index = 12, .tension_sensor_index = 4,.muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
-    Muscle::muscle_cfg_t muscle_conf_5 = {.adc_index = 5, .dac_index = 13, .tension_sensor_index = 0, .muscle_spindle_index = 8,
-            .pid_cfg = pid_conf, .board = &control_board,.mslo_mshi = "mshi"};
+    Muscle::muscle_cfg_t muscle_conf_5 = {.adc_index = 5, .dac_index = 13, .tension_sensor_index = 6, .muscle_spindle_index = 10,
+            .pid_cfg = pid_conf, .board = &control_board,.mslo_mshi = "mslo"};
 
-    Muscle::muscle_cfg_t muscle_conf_6 = {.adc_index = 6, .dac_index = 14, .tension_sensor_index = 6,.muscle_spindle_index = 16,
+    Muscle::muscle_cfg_t muscle_conf_6 = {.adc_index = 6, .dac_index = 14, .tension_sensor_index = 5,.muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
-    Muscle::muscle_cfg_t muscle_conf_7 = {.adc_index = 7, .dac_index = 15, .tension_sensor_index = 2, .muscle_spindle_index = 9,
-            .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
+    Muscle::muscle_cfg_t muscle_conf_7 = {.adc_index = 7, .dac_index = 15, .tension_sensor_index = 7, .muscle_spindle_index = 11,
+            .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mslo"};
 
     // Using auto to avoid repeating Classname
     auto *muscle_0 = new Muscle(muscle_conf_0);

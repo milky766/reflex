@@ -43,7 +43,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     Muscle::pid_cfg_t pid_conf2 = {.p = 30.0, .i = 5.0, .d = 0.01, .lower_clamp = -4.5, .upper_clamp = 4.5};
 
     //Muscles are numbered by their order of labels in the setup. Indices are based on the hardware's channel numbers
-    Muscle::muscle_cfg_t muscle_conf_0 = {.adc_index = 0, .dac_index = 8, .tension_sensor_index = 0, .muscle_spindle_index = 16,　//muscle_cfg_tはPID値やセンサのインデックスなどを設定する構造体
+    Muscle::muscle_cfg_t muscle_conf_0 = {.adc_index = 0, .dac_index = 8, .tension_sensor_index = 0, .muscle_spindle_index = 16,//muscle_cfg_tはPID値やセンサのインデックスなどを設定する構造体
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
     Muscle::muscle_cfg_t muscle_conf_1 = {.adc_index = 1, .dac_index = 9, .tension_sensor_index = 1, .muscle_spindle_index = 16, //制御弁8個あるから、muscle_0からmuscle_7までの8個のmuscleを設定.ワンさんが使っているのはmuscle_5とmuscle_7のみ
@@ -58,14 +58,14 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     Muscle::muscle_cfg_t muscle_conf_4 = {.adc_index = 4, .dac_index = 12, .tension_sensor_index = 4, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
-    Muscle::muscle_cfg_t muscle_conf_5 = {.adc_index = 5, .dac_index = 13, .tension_sensor_index = 0, .muscle_spindle_index = 8,
-            .pid_cfg = pid_conf2, .board = &control_board,.mslo_mshi = "mshi"};
+    Muscle::muscle_cfg_t muscle_conf_5 = {.adc_index = 5, .dac_index = 13, .tension_sensor_index = 6, .muscle_spindle_index = 10,
+            .pid_cfg = pid_conf2, .board = &control_board,.mslo_mshi = "mslo"};
 
-    Muscle::muscle_cfg_t muscle_conf_6 = {.adc_index = 6, .dac_index = 14, .tension_sensor_index = 6, .muscle_spindle_index = 16,
+    Muscle::muscle_cfg_t muscle_conf_6 = {.adc_index = 6, .dac_index = 14, .tension_sensor_index = 5, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
-    Muscle::muscle_cfg_t muscle_conf_7 = {.adc_index = 7, .dac_index = 15, .tension_sensor_index = 2, .muscle_spindle_index = 10,
-            .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"}; //int *p = &x;  pはxのアドレスを指すポインタ
+    Muscle::muscle_cfg_t muscle_conf_7 = {.adc_index = 7, .dac_index = 15, .tension_sensor_index = 7, .muscle_spindle_index = 11,
+            .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mslo"}; //int *p = &x;  pはxのアドレスを指すポインタ
 
     //    Muscle::muscle_cfg_t muscle_conf_7 = {.adc_index = 7, .dac_index = 15, .tension_sensor_index = 2, .muscle_spindle_index = 9,
     //        .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
@@ -160,7 +160,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     double *g_pressure_1 = new double[100000];
     double *g_pressure_2 = new double[100000];
     double *ago_SR = new double[100000]; //Stretch reflex
-    double *ago_RI = new double[100000]; ://Reciprocal inhibition
+    double *ago_RI = new double[100000]; //Reciprocal inhibition
     double *ago_AI = new double[100000]; //Autogenic inhibition
     double *ago_RE = new double[100000]; //reciprocal excitation
     double *antago_SR = new double[100000];
@@ -170,8 +170,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
     double base_a_len, base_anta_len, base_a_tension, base_anta_tension;
     //追加
-    double base_a_len_model, base_anta_len_model,
-_
+    double base_a_len_model, base_anta_len_model;
+
     int *marker = new int[100000];
     int *angle = new int[100000];
 
@@ -335,8 +335,8 @@ _
             }
         }
         
-		if (alpha_m1 > 0.5) {
-            alpha_m1 = 0.5;
+		if (alpha_m1 > 0.7) {
+            alpha_m1 = 0.7;
         } else if (alpha_m1 < 0.02) {
             alpha_m1 = 0.02;
         }
@@ -429,13 +429,13 @@ _
     file.open(filename, std::ios::out | std::ios::app);
     file << "count\t"
          << "tension_left\t" << "ms_left\t" 
-         //<< "ms_left_model\t"
+         << "ms_left_model\t"
          <<"ms_speed_left\t" 
-         //<<"ms_speed_left_model\t" 
+         <<"ms_speed_left_model\t" 
          << "pressure_left\t" << "g_pressure_1\t"<< "tension_right\t"<< "ms_right\t" 
-         //<< "ms_right_model\t"
+         << "ms_right_model\t"
          <<"ms_speed_right\t" 
-         //<<"ms_speed_right_model\t"
+         <<"ms_speed_right_model\t"
          << "pressure_right\t" <<"g_pressure_2\t"<< "start of cycle\t" << "angle\t" 
          << "m5_Ia_homo+\t" << "m5_Ia_anta-\t" << "m5_Ib_homo-\t" << "m5_Ib_anta+\t" 
          << "m7_Ia_homo+\t" << "m7_Ia_anta-\t" << "m7_Ib_homo-\t" << "m7_Ib_anta+\t"
@@ -452,14 +452,14 @@ _
     for (int i = 0; i <= sample_count; i++)
     {
         file << i << "\t" << tension_data_left[i] << "\t" << ms_data_left[i] << "\t" 
-             //<<ms_data_left_model[i] << "\t"
+             <<ms_data_left_model[i] << "\t"
              << ms_data_left_speed[i] << "\t"
-             //<< ms_data_left_speed_model[i] << "\t"
+             << ms_data_left_speed_model[i] << "\t"
              << pressure_data_left[i] << "\t" << g_pressure_1[i] << "\t"
              << tension_data_right[i] << "\t" << ms_data_right[i] << "\t"
-             //<< ms_data_right_model[i] << "\t"
+             << ms_data_right_model[i] << "\t"
              << ms_data_right_speed[i] << "\t"
-             //<<ms_data_right_speed_model[i] << "\t"
+             <<ms_data_right_speed_model[i] << "\t"
              << pressure_data_right[i] << "\t" << g_pressure_2[i] << "\t" << marker[i] << "\t" << angle[i] << "\t" 
              << ago_SR[i] << "\t" << ago_RI[i] << "\t" << ago_AI[i] << "\t" << ago_RE[i] << "\t" 
              << antago_SR[i] << "\t" << antago_RI[i] << "\t" << antago_AI[i] << "\t" << antago_RE[i]

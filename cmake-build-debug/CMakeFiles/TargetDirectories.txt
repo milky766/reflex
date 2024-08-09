@@ -1,6 +1,0 @@
-/Volumes/Macintosh HD/workspaces/control_board_yanlin/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Volumes/Macintosh HD/workspaces/control_board_yanlin/cmake-build-debug/CMakeFiles/reflex_control.dir
-/Volumes/Macintosh HD/workspaces/control_board_yanlin/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Volumes/Macintosh HD/workspaces/control_board_yanlin/cmake-build-debug/CMakeFiles/0715_motor_control.dir
-/Volumes/Macintosh HD/workspaces/control_board_yanlin/cmake-build-debug/CMakeFiles/hysteresis_test.dir
-/Volumes/Macintosh HD/workspaces/control_board_yanlin/cmake-build-debug/CMakeFiles/control_board.dir
