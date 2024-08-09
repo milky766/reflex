@@ -2,8 +2,8 @@
 // Created by Sherry Wang on 2021/11/15.
 //
 
-#include "lower_controller.h"
-// #include "../../include/lower_controller.h"
+// #include "lower_controller.h"
+#include "../../include/lower_controller.h"
 
 
 SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
@@ -111,6 +111,10 @@ void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
     MaxTracker_.a_Ia = std::max(filtered_agonist_v_/2000, MaxTracker_.a_Ia); //2000の数値は反射の大きさを見ながらキャリブレーションするしかない
     MaxTracker_.anta_Ia = std::max(filtered_antagonist_v_/200, MaxTracker_.anta_Ia);
 
+     
+    MaxTracker_model_.a_Ia = std::max(filtered_agonist_v_model_/2000, MaxTracker_model_.a_Ia); //2000の値はmodelにしたことで大きく変わるはず。何度も実験して調整
+    MaxTracker_model_.anta_Ia = std::max(filtered_antagonist_v_model_/200, MaxTracker_model_.anta_Ia);
+
     agonist_len_ = temp_agonist_len_; antagonist_len_ = temp_antagonist_len_;
     agonist_len_model_ = temp_agonist_len_model_; antagonist_len_model_= temp_antagonist_len_model_;
 
@@ -197,7 +201,7 @@ double SpinalCord::calculateLength(int muscle_idx, uint16_t voltage, double pres
     double tolerance = 1e-1; //0.1の誤差まで許容する
     double maxIterations = 50; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
     int iteration = 0;
-    uint16_t voltage_diff = voltage - voltage_base;
+    double voltage_diff = static_cast<double>(voltage - voltage_base);
     while (iteration < maxIterations) {
         // 関数の値とその導関数を計算
         voltage_diff = (a_3_new * pressure * L_d + a_2_new * + a_1_new * L_d + a_0_new) * L_d - voltage_diff;
@@ -212,6 +216,48 @@ double SpinalCord::calculateLength(int muscle_idx, uint16_t voltage, double pres
     natural_length = natural_length_slope * pressure + natural_length_intercept;
 
     return natural_length + L_d;
+
+}
+
+double SpinalCord::calculateDeformation(int muscle_idx, uint16_t voltage, double pressure)
+{
+    double a_3_new, a_2_new, a_1_new, a_0_new, natural_length_slope, natural_length_intercept;
+    uint16_t voltage_base;
+
+    if (muscle_idx == 5) {
+        a_3_new = a_3_agonist_new;
+        a_2_new = a_2_agonist_new;
+        a_1_new = a_1_agonist_new;
+        a_0_new = a_0_agonist_new;
+        natural_length_slope = natural_length_slope_agonist;
+        natural_length_intercept = natural_length_intercept_agonist;
+        voltage_base = Base_sensor_info_.base_agonist_tension;
+    } else {
+        a_3_new = a_3_antagonist_new;
+        a_2_new = a_2_antagonist_new;
+        a_1_new = a_1_antagonist_new;
+        a_0_new = a_0_antagonist_new;
+        natural_length_slope = natural_length_slope_antagonist;
+        natural_length_intercept = natural_length_intercept_antagonist;
+        voltage_base = Base_sensor_info_.base_antagonist_tension;
+
+    }
+    double L_d = 10;  // 適当な初期値を設定
+    double tolerance = 1e-1; //0.1の誤差まで許容する
+    double maxIterations = 50; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
+    int iteration = 0;
+    double voltage_diff = static_cast<double>(voltage - voltage_base);
+    while (iteration < maxIterations) {
+        // 関数の値とその導関数を計算
+        voltage_diff = (a_3_new * pressure * L_d + a_2_new * + a_1_new * L_d + a_0_new) * L_d - voltage_diff;
+        double dv = a_3_new * pressure * L_d + a_2_new * pressure + 2 * a_1_new * L_d + a_0_new;
+        double delta = -voltage_diff/ dv;
+        L_d += delta;
+        if (std::abs(delta) < tolerance) break;
+        iteration++;
+    }
+
+    return L_d;
 
 }
 
@@ -478,6 +524,95 @@ SpinalCord::Reflex_feedback SpinalCord::antagonist_Ia_innervation()
     }
     
     return antagonist_feedback_;
+}
+
+SpinalCord::Reflex_feedback SpinalCord::agonist_Ia_innervation_model()
+{
+    if (agonist_feedback_model_.isValid == false) {
+        return {.res_SR = 0,
+                .res_RI = 0};
+    }
+    //double res_SR_ = 0, res_RI = 0;
+    if (timer_.triggered == true && timer_.timer_SR >= 0)
+    {
+        --timer_.timer_SR;
+        //agonist_feedback_.res_SR = std::max(filtered_agonist_v_/80000, agonist_feedback_.res_SR);
+        //agonist_feedback_.res_RI = std::max(filtered_agonist_v_/80000, agonist_feedback_.res_RI);
+    
+        agonist_feedback_model_.res_SR = MaxTracker_model_.a_Ia;
+        agonist_feedback_model_.res_RI = MaxTracker_model_.a_Ia;
+                //std::cout << "agonist_feedback: " << agonist_feedback_.res_SR << ", when filtered_agonist_v_ is: " << filtered_agonist_v_ << std::endl; 
+    } 
+    
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    if (subtimer_.triggered == true && subtimer_.subtimer_SR >= 0){
+
+        --subtimer_.subtimer_SR;
+
+        agonist_feedback_model_.res_SR = General_Harden;
+        agonist_feedback_model_.res_RI = - General_Harden;
+
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    
+    
+    else if (timer_.triggered == true && timer_.timer_SR < 0) {
+        agonist_feedback_model_.res_SR = 0;
+        agonist_feedback_model_.res_RI = 0;
+    }
+
+    else if (subtimer_.triggered == true && subtimer_.subtimer_SR < 0) {
+        agonist_feedback_model_.res_SR = 0;
+        agonist_feedback_model_.res_RI = 0;
+        // mutex_c = 1;
+    }
+
+    return agonist_feedback_model_;
+}
+
+SpinalCord::Reflex_feedback SpinalCord::antagonist_Ia_innervation_model()
+{
+    if (antagonist_feedback_model_.isValid == false) {
+        return {.res_SR = 0,
+                .res_RI = 0};
+    }
+    if (timer_.triggered == true && timer_.timer_SR >= 0)
+    {
+        --timer_.timer_SR;
+        antagonist_feedback_model_.res_SR = MaxTracker_model_.anta_Ia;
+        antagonist_feedback_model_.res_RI = MaxTracker_model_.anta_Ia;
+                
+                //std::cout << "antagonist_feedback: " << antagonist_feedback_.res_SR << ", when filtered_antagonist_v_ is: "<< filtered_antagonist_v_ << std::endl; 
+
+    } 
+    
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    else if (subtimer_.triggered == true && subtimer_.subtimer_SR >= 0){
+
+        --subtimer_.subtimer_SR;
+
+        antagonist_feedback_model_.res_SR = General_Harden;
+        antagonist_feedback_model_.res_RI = - General_Harden;
+
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    
+    
+    
+    else if (timer_.triggered == true && timer_.timer_SR < 0) {
+        antagonist_feedback_model_.res_SR = 0;
+        antagonist_feedback_model_.res_RI = 0;
+    }
+
+    else if (subtimer_.triggered == true && subtimer_.subtimer_SR < 0) {
+        antagonist_feedback_model_.res_SR = 0;
+        antagonist_feedback_model_.res_RI = 0;
+        // mutex_c = 1;
+    }
+    
+    return antagonist_feedback_model_;
 }
 
 SpinalCord::GTO_feedback SpinalCord::agonist_Ib_innervation() {

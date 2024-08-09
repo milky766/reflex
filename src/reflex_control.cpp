@@ -21,6 +21,13 @@
 #include <top_controller.h>
 
 
+#include <iostream>  // std::cout, std::cin
+#include <fstream>
+#include <ctime>
+#include <iomanip>  // std::setw, std::setfill
+#include <sstream>  // std::stringstream
+
+
 #define PI acos(-1)
 #define STATIC 0
 #define RHYTHMIC 1
@@ -38,6 +45,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 {
+    std::string userInput;
+    std::cout << "Please enter the filename suffix: ";
+    std::cin >> userInput;
+
     //Neutral Position of Valve is at 5V. So clamps are set to -4.5V and 4.5V for effective control voltages of 0.5 to 9.5V
     Muscle::pid_cfg_t pid_conf = {.p = 30.0, .i = 20.0, .d = 0.01, .lower_clamp = -4.5, .upper_clamp = 4.5}; //pid_cfg_tはPID値やセンサのインデックスなどを設定する構造体
     Muscle::pid_cfg_t pid_conf2 = {.p = 30.0, .i = 5.0, .d = 0.01, .lower_clamp = -4.5, .upper_clamp = 4.5};
@@ -115,9 +126,9 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     topController::goal_pressure higher_commands = {0.1, 0.1}; //goal_pressure_m1とgoal_pressure_m2
     SpinalCord *low_con = new SpinalCord(muscle_5, muscle_7); //5がagonist, 7がantagonist
     SpinalCord::Reflex_feedback reflex_commands_agonist = {0, 0, false};
-    //SpinalCord::Reflex_feedback reflex_commands_agonist;
-    //reflex_commands_agonist.init_feedback();としても同じこと。ただし、この行を忘れて初期化しないと予期しないエラーが発生する可能性がある。
+    SpinalCord::Reflex_feedback reflex_commands_agonist_model = {0, 0, false};
     SpinalCord::Reflex_feedback reflex_commands_antagonist = {0, 0, false};
+    SpinalCord::Reflex_feedback reflex_commands_antagonist_model = {0, 0, false};
     SpinalCord::GTO_feedback reflex_gto_agonist = {0, 0, false};
     SpinalCord::GTO_feedback reflex_gto_antagonist = {0,0, false};
     SpinalCord::Sensor_info sensor_info_agonist;
@@ -161,11 +172,15 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     double *g_pressure_1 = new double[100000];
     double *g_pressure_2 = new double[100000];
     double *ago_SR = new double[100000]; //Stretch reflex
+    double *ago_SR_model = new double[100000];
     double *ago_RI = new double[100000]; //Reciprocal inhibition
+    double *ago_RI_model = new double[100000];
     double *ago_AI = new double[100000]; //Autogenic inhibition
     double *ago_RE = new double[100000]; //reciprocal excitation
     double *antago_SR = new double[100000];
+    double *antago_SR_model = new double[100000];
     double *antago_RI = new double[100000];
+    double *antago_RI_model = new double[100000];
     double *antago_AI = new double[100000];
     double *antago_RE = new double[100000];
 
@@ -315,6 +330,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         
         reflex_commands_agonist = low_con->agonist_Ia_innervation(); //maxtrackerの値を更新したり、CoConrinatorの値を更新したりする
         reflex_commands_antagonist = low_con->antagonist_Ia_innervation();
+        //reflex_commands_agonist_model = low_con->agonist_Ia_innervation_model(); 
+        // reflex_commands_antagonist_model = low_con->antagonist_Ia_innervation_model();
         reflex_gto_agonist = low_con->agonist_Ib_innervation();
         reflex_gto_antagonist = low_con->antagonist_Ib_innervation();
         
@@ -341,6 +358,12 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
                 alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist.res_SR - reflex_commands_agonist.res_RI;
                 break;
             }
+            // case 1:
+            // {
+            //     alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist_model.res_SR - reflex_commands_antagonist_model.res_RI;
+            //     alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist_model.res_SR - reflex_commands_agonist_model.res_RI;
+            //     break;
+            // }
             case 2:
             {
                 alpha_m1 = higher_commands.goal_pressure_m1 - reflex_gto_agonist.res_AI + reflex_gto_antagonist.res_RE;
@@ -375,13 +398,12 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         Muscle::muscle_state_t s_7 = muscle_7->updateMuscle(m_cmd_7);
         Muscle::muscle_state_t p_7 = muscle_7->printMuscle(m_cmd_7);
 
-        g_pressure_1[sample_count] = alpha_m1; //g_pressure_1 と g_pressure_2 はそれぞれ、ゴール圧力（目標圧力）を保存するための配列です。
-        g_pressure_2[sample_count] = alpha_m2; //alpha_m1 と alpha_m2 は、それぞれの筋肉に対する現在の目標圧力を示しています。
-         
-// change mode: 3 以下のブロックでは、各センサーのデータを記録し、ファイルに書き込むための準備を行います。
+        g_pressure_1[sample_count] = alpha_m1; 
+        g_pressure_2[sample_count] = alpha_m2; 
+
         marker[sample_count] = top_con->isStart(STATIC);
         //marker[sample_count] = top_con->isStart();
-        sensor_info_agonist = low_con->get_agonist_sensor_info(); //muscle_lenなどをreturnする関数
+        sensor_info_agonist = low_con->get_agonist_sensor_info(); 
         sensor_info_antagonist = low_con->get_antagonist_sensor_info();
 
         sensor_info_agonist_model = low_con->get_agonist_sensor_info_model(); 
@@ -414,11 +436,15 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         angle[sample_count] = control_board.getPotentiometerData(potentiometer_idx);
 
         ago_SR[sample_count] = reflex_commands_agonist.res_SR;
+        ago_SR_model[sample_count] = reflex_commands_agonist_model.res_SR;
         ago_RI[sample_count] = reflex_commands_agonist.res_RI;
+        ago_RI_model[sample_count] = reflex_commands_agonist_model.res_RI;
         ago_AI[sample_count] = reflex_gto_agonist.res_AI;
         ago_RE[sample_count] = reflex_gto_agonist.res_RE;
         antago_SR[sample_count] = reflex_commands_antagonist.res_SR;
+        antago_SR_model[sample_count] = reflex_commands_antagonist_model.res_SR;
         antago_RI[sample_count] = reflex_commands_antagonist.res_RI;
+        antago_RI_model[sample_count] = reflex_commands_antagonist_model.res_RI;
         antago_AI[sample_count] = reflex_gto_antagonist.res_AI;
         antago_RE[sample_count] = reflex_gto_antagonist.res_RE;
 
@@ -447,47 +473,94 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     // base_anta_tension = low_con->getBaseSensorInfo().base_antagonist_tension;
 
 
-    char filename[1000];
-    sprintf(filename, "../data/feedback_test/20221114/DualReflex_%lld.txt", rater->TimeStamp());
+    // char filename[1000];
+    // sprintf(filename, "../data/feedback_test/20221114/DualReflex_%lld.txt", rater->TimeStamp());
+    // std::cout << "prepare to write data to file" << std::endl;
+    // std::ofstream file;
+    // file.open(filename, std::ios::out | std::ios::app);
+
+ // 現在の日付を取得してフォーマット
+    std::time_t t = std::time(nullptr);
+    std::tm tm = *std::localtime(&t);
+    std::stringstream ss;
+    ss << (tm.tm_year + 1900) << std::setw(2) << std::setfill('0') << (tm.tm_mon + 1) << std::setw(2) << std::setfill('0') << tm.tm_mday;
+
+    // ファイル名を設定
+    // std::string filename = "../data/feedback_test/" + ss.str() + "_" + userInput + ".txt";
+    std::string filename = "../data/feedback_test/" + ss.str() + "_" + userInput + ".csv";
     std::cout << "prepare to write data to file" << std::endl;
     std::ofstream file;
-    file.open(filename, std::ios::out | std::ios::app);
-    file << "count\t"
-         << "tension_left\t" << "ms_left\t" 
-         << "ms_left_model\t"
-         <<"ms_speed_left\t" 
-         <<"ms_speed_left_model\t" 
-         << "pressure_left\t" << "g_pressure_1\t"<< "tension_right\t"<< "ms_right\t" 
-         << "ms_right_model\t"
-         <<"ms_speed_right\t" 
-         <<"ms_speed_right_model\t"
-         << "pressure_right\t" <<"g_pressure_2\t"<< "start of cycle\t" << "angle\t" 
-         << "m5_Ia_homo+\t" << "m5_Ia_anta-\t" << "m5_Ib_homo-\t" << "m5_Ib_anta+\t" 
-         << "m7_Ia_homo+\t" << "m7_Ia_anta-\t" << "m7_Ib_homo-\t" << "m7_Ib_anta+\t"
-         << base_a_len << "\t" 
-         << base_anta_len << "\t"
-         //追加
-         << base_a_len_model << "\t" 
-         << base_anta_len_model << "\t"
+    file.open(filename.c_str(), std::ios::out | std::ios::app);
+    file 
+        //  << "count\t"
+        //  << "tension_left\t" << "ms_left\t" 
+        //  << "ms_left_model\t"
+        //  <<"ms_speed_left\t" 
+        //  <<"ms_speed_left_model\t" 
+        //  << "pressure_left\t" << "g_pressure_1\t"<< "tension_right\t"<< "ms_right\t" 
+        //  << "ms_right_model\t"
+        //  <<"ms_speed_right\t" 
+        //  <<"ms_speed_right_model\t"
+        //  << "pressure_right\t" <<"g_pressure_2\t"<< "start of cycle\t" << "angle\t" 
+        //  << "m5_Ia_+\t"<< "m5_Ia_model_+\t" << "m5_Ia_-\t"<< "m5_Ia_model_-\t" << "m5_Ib_-\t" << "m5_Ib_+\t" 
+        //  << "m7_Ia_+\t" << "m7_Ia_model_+\t" << "m7_Ia_-\t"<< "m7_Ia_model_-\t" << "m7_Ib_-\t" << "m7_Ib_+\t"
+        //  << base_a_len << "\t" 
+        //  << base_anta_len << "\t"
+        //  //追加
+        //  << base_a_len_model << "\t" 
+        //  << base_anta_len_model << "\t"
 
-         << base_a_tension << "\t"
-         << base_anta_tension << "\t"
+        //  << base_a_tension << "\t"
+        //  << base_anta_tension << "\t"
+         << "count,"
+         << "tension_left," << "ms_left," 
+         << "ms_left_model,"
+         <<"ms_speed_left," 
+         <<"ms_speed_left_model," 
+         << "pressure_left," << "g_pressure_1,"<< "tension_right,"<< "ms_right," 
+         << "ms_right_model,"
+         <<"ms_speed_right," 
+         <<"ms_speed_right_model," 
+         << "pressure_right," <<"g_pressure_2,"<< "start of cycle," << "angle," 
+         << "m5_Ia_+,"<< "m5_Ia_model_+," << "m5_Ia_-,"<< "m5_Ia_model_-," << "m5_Ib_-," << "m5_Ib_+," 
+         << "m7_Ia_+," << "m7_Ia_model_+," << "m7_Ia_-,"<< "m7_Ia_model_-," << "m7_Ib_-," << "m7_Ib_+," 
+         << base_a_len << "," 
+         << base_anta_len << ","
+         // 追加
+         << base_a_len_model << "," 
+         << base_anta_len_model << ","
+
+         << base_a_tension << ","
+         << base_anta_tension << ","
          << std::endl;
          
     for (int i = 0; i <= sample_count; i++)
     {
-        file << i << "\t" << tension_data_left[i] << "\t" << ms_data_left[i] << "\t" 
-             <<ms_data_left_model[i] << "\t"
-             << ms_data_left_speed[i] << "\t"
-             << ms_data_left_speed_model[i] << "\t"
-             << pressure_data_left[i] << "\t" << g_pressure_1[i] << "\t"
-             << tension_data_right[i] << "\t" << ms_data_right[i] << "\t"
-             << ms_data_right_model[i] << "\t"
-             << ms_data_right_speed[i] << "\t"
-             <<ms_data_right_speed_model[i] << "\t"
-             << pressure_data_right[i] << "\t" << g_pressure_2[i] << "\t" << marker[i] << "\t" << angle[i] << "\t" 
-             << ago_SR[i] << "\t" << ago_RI[i] << "\t" << ago_AI[i] << "\t" << ago_RE[i] << "\t" 
-             << antago_SR[i] << "\t" << antago_RI[i] << "\t" << antago_AI[i] << "\t" << antago_RE[i]
+        file 
+            //  << i << "\t" << tension_data_left[i] << "\t" << ms_data_left[i] << "\t" 
+            //  <<ms_data_left_model[i] << "\t"
+            //  << ms_data_left_speed[i] << "\t"
+            //  << ms_data_left_speed_model[i] << "\t"
+            //  << pressure_data_left[i] << "\t" << g_pressure_1[i] << "\t"
+            //  << tension_data_right[i] << "\t" << ms_data_right[i] << "\t"
+            //  << ms_data_right_model[i] << "\t"
+            //  << ms_data_right_speed[i] << "\t"
+            //  <<ms_data_right_speed_model[i] << "\t"
+            //  << pressure_data_right[i] << "\t" << g_pressure_2[i] << "\t" << marker[i] << "\t" << angle[i] << "\t" 
+            //  << ago_SR[i] << "\t"<< ago_SR_model[i] << "\t" << ago_RI[i] << "\t"<< ago_RI_model[i] << "\t" << ago_AI[i] << "\t" << ago_RE[i] << "\t" 
+            //  << antago_SR[i] << "\t"<< antago_SR_model[i] << "\t" << antago_RI[i] << "\t" << antago_RI_model[i] << "\t" << antago_AI[i] << "\t" << antago_RE[i]
+             << i << "," << tension_data_left[i] << "," << ms_data_left[i] << "," 
+             << ms_data_left_model[i] << ","
+             << ms_data_left_speed[i] << ","
+             << ms_data_left_speed_model[i] << ","
+             << pressure_data_left[i] << "," << g_pressure_1[i] << ","
+             << tension_data_right[i] << "," << ms_data_right[i] << ","
+             << ms_data_right_model[i] << ","
+             << ms_data_right_speed[i] << ","
+             << ms_data_right_speed_model[i] << ","
+             << pressure_data_right[i] << "," << g_pressure_2[i] << "," << marker[i] << "," << angle[i] << "," 
+             << ago_SR[i] << "," << ago_SR_model[i] << "," << ago_RI[i] << "," << ago_RI_model[i] << "," << ago_AI[i] << "," << ago_RE[i] << "," 
+             << antago_SR[i] << "," << antago_SR_model[i] << "," << antago_RI[i] << "," << antago_RI_model[i] << "," << antago_AI[i] << "," << antago_RE[i]
              << std::endl;
     }
     file.close();
@@ -523,11 +596,15 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     delete[] ago_AI;
     delete[] ago_RE;
     delete[] ago_RI;
+    delete[] ago_RI_model;
     delete[] ago_SR;
+    delete[] ago_SR_model;
     delete[] antago_AI;
     delete[] antago_RE;
     delete[] antago_RI;
+    delete[] antago_RI_model;
     delete[] antago_SR;
+    delete[] antago_SR_model;
 
     //delete[] MT_a_Ib;
     //delete[] MT_anta_Ib;

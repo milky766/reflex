@@ -55,7 +55,7 @@
 #define a_1_antagonist -0.03648
 #define a_0_antagonist 6.317713
 
-// a_i_agonist_new = a_i_agonist/tension_voltage_slope_agonist
+// a_i_agonist_new = a_i_agonist*tension_voltage_slope_agonist
 
 #define a_3_agonist_new -0.20082
 #define a_2_agonist_new 7.001792
@@ -175,6 +175,9 @@ public:
 
     Reflex_feedback agonist_Ia_innervation();
     Reflex_feedback antagonist_Ia_innervation();
+    Reflex_feedback agonist_Ia_innervation_model();
+    Reflex_feedback antagonist_Ia_innervation_model();
+    
     GTO_feedback agonist_Ib_innervation();
     GTO_feedback antagonist_Ib_innervation();
 
@@ -184,6 +187,7 @@ public:
     Sensor_info get_antagonist_sensor_info_model();
 
     double calculateLength(int muscle_idx, uint16_t voltage, double pressure);
+    double calculateDeformation(int muscle_idx, uint16_t voltage, double pressure);
 
     uint64_t micros();
 
@@ -215,6 +219,7 @@ public:
     };
 
     MaxTracker MaxTracker_;
+   MaxTracker MaxTracker_model_; 
 
     struct Cordinator
     {
@@ -253,6 +258,9 @@ private:
 
     Reflex_feedback agonist_feedback_;
     Reflex_feedback antagonist_feedback_;
+    Reflex_feedback agonist_feedback_model_;
+    Reflex_feedback antagonist_feedback_model_;
+    
     GTO_feedback agonist_gto_feedback_;
     GTO_feedback antagonist_gto_feedback_;
 
