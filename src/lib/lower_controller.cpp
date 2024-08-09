@@ -3,6 +3,8 @@
 //
 
 #include "lower_controller.h"
+// #include "../../include/lower_controller.h"
+
 
 SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
     agonist_ = agonist;
@@ -10,10 +12,7 @@ SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
     t1 = micros() * 1e-6;
 
     agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len) / Base_sensor_info_.base_agonist_len * 100;
-    agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len) / Base_sensor_info_model_.base_agonist_len * 100;
-
-    
-    // agonist_len_percentage_ = (agonist_len_ - base_agonist_len_)
+    agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len) / Base_sensor_info_model_.base_agonist_len* 100;
 
     temp_agonist_len_ = agonist_len_;
     agonist_v_ = 0;
@@ -26,8 +25,6 @@ SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
     antagonist_tension_ = (static_cast<double>(antagonist_->getMuscleState().current_tension_sensor_feedback) - static_cast<double>(Base_sensor_info_.base_antagonist_tension)) ;
     antagonist_filter_ = new IIRFilter(0.0); //これいらないかも
 
- //tensionのコードはそのままでok(voltageのまま)
- //つまり、tension_model_はつくらない。tension_を利用する
 
     temp_agonist_len_model_ = agonist_len_model_;
     agonist_v_model_ = 0;
@@ -58,6 +55,7 @@ SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
 
 
 }
+
 
 SpinalCord::~SpinalCord()
 { 
@@ -108,7 +106,7 @@ void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
     filtered_antagonist_v_ = antagonist_filter_->sample(antagonist_v_);
 
     filtered_agonist_v_model_ = agonist_filter_model_->sample(agonist_v_model_);
-    filtered_antagonist_v_ = antagonist_filter_model_->sample(antagonist_v_model_);
+    filtered_antagonist_v_model_ = antagonist_filter_model_->sample(antagonist_v_model_);
  
     MaxTracker_.a_Ia = std::max(filtered_agonist_v_/2000, MaxTracker_.a_Ia); //2000の数値は反射の大きさを見ながらキャリブレーションするしかない
     MaxTracker_.anta_Ia = std::max(filtered_antagonist_v_/200, MaxTracker_.anta_Ia);

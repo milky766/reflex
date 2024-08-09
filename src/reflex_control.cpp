@@ -104,8 +104,9 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     Muscle::muscle_cmd_t m_cmd_6 = {.control_mode = Muscle::ControlMode::activation, .goal_pressure = 0.0, .goal_activation = 0.0};
     Muscle::muscle_state_t s_6 = muscle_6->updateMuscle(m_cmd_6);
 
+
 //change mode : 1
-    auto *top_con = new topController(0.25);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
+    auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
     //auto *top_con = new topController(0.25, 0.25, 3, 100); //rotation mode 
     //auto *top_con = new topController(0.40, 0.15, 3, 100);
     //auto *top_con = new topController(0, 0, 0.40, 0.15, 10.0, 100);
@@ -192,7 +193,26 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 	RateLoop *initiator = new RateLoop(100, 2.0); //100Hzのwhile loopを2秒間実行する
 	while (initiator->Sleep()) //2秒間このループを実行する
 	{ 
+
 		control_board.update_inputs(); //この ControlBoard::update_inputs メソッドは、ControlBoard クラスのメンバー関数であり、ADC (アナログ-デジタルコンバータ) とロードセル (荷重センサ) からデータを取得し、内部データストアに更新しています。
+
+        static bool FirstRun = true;
+        if(FirstRun){
+            muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.0, .goal_activation = 0.0});
+            muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.0, .goal_activation = 0.0});
+            
+            low_con->update_base_sensor_info();
+            low_con->update_base_sensor_info_model();
+
+            base_a_len = low_con->getBaseSensorInfo().base_agonist_len;
+            base_anta_len = low_con->getBaseSensorInfo().base_antagonist_len;
+            base_a_len_model = low_con->getBaseSensorInfo_model().base_agonist_len;
+            base_anta_len_model = low_con->getBaseSensorInfo_model().base_antagonist_len;
+            base_a_tension = low_con->getBaseSensorInfo().base_agonist_tension;
+            base_anta_tension = low_con->getBaseSensorInfo().base_antagonist_tension;
+
+            FirstRun = false;
+        }
         muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.25, .goal_activation = 0.0});
         muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.25, .goal_activation = 0.0});
 	}
@@ -210,12 +230,12 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
     while(true)
     {
-        static bool FirstRun = true;
-        if(FirstRun){ //ループが最初に実行されるときにだけ実行されるコード
-            low_con->update_base_sensor_info();
-            low_con->update_base_sensor_info_model();
-            FirstRun = false;
-        }
+        // static bool FirstRun = true;
+        // if(FirstRun){ 
+        //     low_con->update_base_sensor_info();
+        //     low_con->update_base_sensor_info_model();
+        //     FirstRun = false;
+        // }
         
         EntryFlag_Ia = 0;
         ExitFlag_Ia = 0;
@@ -384,6 +404,11 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         ms_data_left_model[sample_count] = sensor_info_agonist_model.muscle_len;
         ms_data_left_speed_model[sample_count] = sensor_info_agonist_model.muscle_filtered_v;
 
+        
+        ms_data_right_model[sample_count] = sensor_info_antagonist_model.muscle_len;
+        ms_data_right_speed_model[sample_count] = sensor_info_antagonist_model.muscle_filtered_v;
+
+
         pressure_data_right[sample_count] = s_7.current_pressure;
 
         angle[sample_count] = control_board.getPotentiometerData(potentiometer_idx);
@@ -412,14 +437,14 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
     control_board.update_inputs(); //ADC (アナログ-デジタルコンバータ) とロードセル (荷重センサ) からデータを取得し、内部データストアに更新しています。
 
-    base_a_len = low_con->getBaseSensorInfo().base_agonist_len;
-    base_anta_len = low_con->getBaseSensorInfo().base_antagonist_len;
+    // base_a_len = low_con->getBaseSensorInfo().base_agonist_len;
+    // base_anta_len = low_con->getBaseSensorInfo().base_antagonist_len;
 
-    base_a_len_model = low_con->getBaseSensorInfo_model().base_agonist_len;
-    base_anta_len_model = low_con->getBaseSensorInfo_model().base_antagonist_len;
+    // base_a_len_model = low_con->getBaseSensorInfo_model().base_agonist_len;
+    // base_anta_len_model = low_con->getBaseSensorInfo_model().base_antagonist_len;
 
-    base_a_tension = low_con->getBaseSensorInfo().base_agonist_tension;
-    base_anta_tension = low_con->getBaseSensorInfo().base_antagonist_tension;
+    // base_a_tension = low_con->getBaseSensorInfo().base_agonist_tension;
+    // base_anta_tension = low_con->getBaseSensorInfo().base_antagonist_tension;
 
 
     char filename[1000];
@@ -442,8 +467,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
          << base_a_len << "\t" 
          << base_anta_len << "\t"
          //追加
-        //  << base_a_len_model << "\t" 
-        //  << base_anta_len_model << "\t"
+         << base_a_len_model << "\t" 
+         << base_anta_len_model << "\t"
 
          << base_a_tension << "\t"
          << base_anta_tension << "\t"
@@ -470,8 +495,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     std::cout << "the base number is:\n" 
         << base_a_len << "\n" 
         << base_anta_len << "\n"
-        // << base_a_len_model << "\n" 
-        // << base_anta_len_model << "\n"
+        << base_a_len_model << "\n" 
+        << base_anta_len_model << "\n"
         << base_a_tension << "\n"
         << base_anta_tension << "\n"
         << std::endl;

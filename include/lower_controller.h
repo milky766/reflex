@@ -40,8 +40,8 @@
 #define Harden_Magnitude 0.05
 
 //追加 ひずみゲージからの電気信号を力に変換するためのパラメータ,実験で求めて入力する
-#define tension_voltage_slope_agonist 0
-#define tension_voltage_slope_antagonist 0
+#define tension_voltage_slope_agonist 1
+#define tension_voltage_slope_antagonist 1
 
 //追加 パラメータを手動入力する
 //1回目の実験、low(0.2-0.6MPa)
@@ -57,15 +57,15 @@
 
 // a_i_agonist_new = a_i_agonist/tension_voltage_slope_agonist
 
-#define a_3_agonist_new 0
-#define a_2_agonist_new 0
-#define a_1_agonist_new 0
-#define a_0_agonist_new 0
+#define a_3_agonist_new -0.20082
+#define a_2_agonist_new 7.001792
+#define a_1_agonist_new 0.256173
+#define a_0_agonist_new 0.91102
 
-#define a_3_antagonist_new 0
-#define a_2_antagonist_new 0
-#define a_1_antagonist_new 0
-#define a_0_antagonist_new 0
+#define a_3_antagonist_new 0.245392
+#define a_2_antagonist_new 0.348521
+#define a_1_antagonist_new -0.03648
+#define a_0_antagonist_new 6.317713
 
 #define  natural_length_slope_agonist -60.1
 #define  natural_length_slope_antagonist -70.3
