@@ -14,7 +14,7 @@ SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
     //agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len) / Base_sensor_info_.base_agonist_len * 100;
     agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len);
     // agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len)/Base_sensor_info_model_.base_agonist_len*100;
-        agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len);
+    agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len);
     temp_agonist_len_ = agonist_len_;
     agonist_v_ = 0;
     agonist_tension_ = (static_cast<double>(agonist_->getMuscleState().current_tension_sensor_feedback) - static_cast<double>(Base_sensor_info_.base_agonist_tension)) ;

@@ -63,10 +63,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     Muscle::muscle_cfg_t muscle_conf_2 = {.adc_index = 2, .dac_index = 10, .tension_sensor_index = 2, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"}; //mslo_mshiはmuscle_spindleがhiかloか?
 
-    Muscle::muscle_cfg_t muscle_conf_3 = {.adc_index = 3, .dac_index = 11, .tension_sensor_index = 3, .muscle_spindle_index = 16,
+    Muscle::muscle_cfg_t muscle_conf_3 = {.adc_index = 3, .dac_index = 11, .tension_sensor_index = 4, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
-    Muscle::muscle_cfg_t muscle_conf_4 = {.adc_index = 4, .dac_index = 12, .tension_sensor_index = 4, .muscle_spindle_index = 16,
+    Muscle::muscle_cfg_t muscle_conf_4 = {.adc_index = 4, .dac_index = 12, .tension_sensor_index = 3, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
     Muscle::muscle_cfg_t muscle_conf_5 = {.adc_index = 5, .dac_index = 13, .tension_sensor_index = 6, .muscle_spindle_index = 10,
@@ -228,8 +228,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
             FirstRun = false;
         }
-        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.6, .goal_activation = 0.0});
-        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.6, .goal_activation = 0.0});
+        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.0, .goal_activation = 0.0});
+        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.0, .goal_activation = 0.0});
 	}
     //muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
     //std::cout << "start" << std:: endl;

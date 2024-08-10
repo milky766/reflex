@@ -33,15 +33,15 @@
 #define Ia_a_cap 260
 #define Ia_anta_cap 2500 //threshhold for Ia_anta 調整が必要
 
-#define sub_Ia_a_cap 150
+#define sub_Ia_a_cap 150 //co-contractionsud
 #define sub_Ia_anta_cap 1.5
 
 #define G_Compensator_factor 1
 #define Harden_Magnitude 0.05
 
 //追加 ひずみゲージからの電気信号を力に変換するためのパラメータ,実験で求めて入力する
-#define tension_voltage_slope_agonist 1
-#define tension_voltage_slope_antagonist 1
+#define tension_voltage_slope_agonist 69.76
+#define tension_voltage_slope_antagonist 92.85
 
 //追加 パラメータを手動入力する
 //1回目の実験、low(0.2-0.6MPa)
@@ -57,15 +57,15 @@
 
 // a_i_agonist_new = a_i_agonist*tension_voltage_slope_agonist
 
-#define a_3_agonist_new -0.20082
-#define a_2_agonist_new 7.001792
-#define a_1_agonist_new 0.256173
-#define a_0_agonist_new 0.91102
+#define a_3_agonist_new -14.01
+#define a_2_agonist_new 488.45
+#define a_1_agonist_new 17.87
+#define a_0_agonist_new 63.55
 
-#define a_3_antagonist_new 0.245392
-#define a_2_antagonist_new 0.348521
-#define a_1_antagonist_new -0.03648
-#define a_0_antagonist_new 6.317713
+#define a_3_antagonist_new 22.78
+#define a_2_antagonist_new 32.36
+#define a_1_antagonist_new -3.39
+#define a_0_antagonist_new 586.60
 
 #define  natural_length_slope_agonist -60.1
 #define  natural_length_slope_antagonist -70.3
@@ -177,7 +177,7 @@ public:
     Reflex_feedback antagonist_Ia_innervation();
     Reflex_feedback agonist_Ia_innervation_model();
     Reflex_feedback antagonist_Ia_innervation_model();
-    
+
     GTO_feedback agonist_Ib_innervation();
     GTO_feedback antagonist_Ib_innervation();
 
