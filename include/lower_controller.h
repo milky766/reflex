@@ -33,7 +33,10 @@
 #define Ia_a_cap 260
 #define Ia_anta_cap 2500 //threshhold for Ia_anta 調整が必要
 
-#define sub_Ia_a_cap 150 //co-contractionsud
+#define Ia_a_cap_model 50000
+#define Ia_anta_cap_model 50000 //threshhold for Ia_anta 調整が必要
+
+#define sub_Ia_a_cap 150 //co-contraction
 #define sub_Ia_anta_cap 1.5
 
 #define G_Compensator_factor 1
@@ -169,6 +172,7 @@ public:
     void update_sensor_info(int &parameter_a,int &parameter_b);
 
     void check_if_stretched(int &parameter_a);
+    void check_if_stretched_model(int &parameter_a);
     void check_if_force(int &parameter_b);
 
     void check_if_Hardern();
@@ -219,7 +223,7 @@ public:
     };
 
     MaxTracker MaxTracker_;
-   MaxTracker MaxTracker_model_; 
+    MaxTracker MaxTracker_model_; 
 
     struct Cordinator
     {
@@ -237,6 +241,7 @@ public:
     Cordinator Output_Cordinate(int flag);
 
     int FeedbackFlag_Ia, FeedbackFlag_Ib;
+    int FeedbackFlag_Ia_model, FeedbackFlag_Ib_model;
 
     double G_Compensation;
     double General_Harden;

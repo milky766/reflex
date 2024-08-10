@@ -393,6 +393,80 @@ void SpinalCord::check_if_stretched(int &parameter_a)
     }
 }
 
+void SpinalCord::check_if_stretched_model(int &parameter_a)
+{
+    --timer_.timer_cycle;
+    
+
+
+    //--subtimer_.subtimer_cycle;
+    
+    //if(mutex_b < 1) {   //mutex lock
+    if(false){
+        return;
+    } 
+    
+    else {
+
+        if (filtered_agonist_v_model_ > Ia_a_cap_model && timer_.triggered == false){
+                std::cout << "left stretched" << std::endl;
+
+        timer_.init_cycle(); //timer_SR = MS_ACTIVE_TIME=20;  timer_cycle = MS_CYCLE_TIME=60;
+        timer_.triggered = true; 
+
+        subtimer_.triggered = false;
+
+        mutex_a = 0;
+        mutex_c = 1;
+       
+        agonist_feedback_model_.isValid = true;
+        FeedbackFlag_Ia_model = 1;
+        } 
+
+
+        else if (filtered_antagonist_v_model_ > Ia_anta_cap_model && timer_.triggered == false) {
+				std::cout << "right stretched" << std::endl;
+
+            timer_.init_cycle();
+            timer_.triggered = true;
+
+            subtimer_.triggered = false;
+            mutex_c = 1;
+
+            mutex_a = 0;
+
+            antagonist_feedback_model_.isValid = true;
+            FeedbackFlag_Ia_model = 1;
+
+        }
+
+    }
+
+    if (timer_.triggered == true && timer_.timer_cycle <= 0) { //60周期分timer_cycle回す
+		    	std::cout << "stretch response end" << std::endl;
+        timer_.triggered = false;
+
+        //timer_.subtriggered = false;
+        subtimer_.triggered = false;
+        mutex_c = 1;
+
+            
+
+        agonist_feedback_model_.init_feedback();
+        antagonist_feedback_model_.init_feedback();
+        MaxTracker_model_.init_Ia();
+
+        mutex_a = 1;
+        FeedbackFlag_Ia_model = 0;
+
+        //General_Harden = 0;
+
+		//para = 1 means Ia reflex end
+        parameter_a += 1; //parameter_aはIa reflexの回数を数える
+
+    }
+}
+
 void SpinalCord::check_if_force(int &parameter_b) //Ib反射
 {
     --gtoSwitcher_.timer_wait;

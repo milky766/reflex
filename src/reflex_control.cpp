@@ -117,7 +117,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 //change mode : 1
-    auto *top_con = new topController(0.6);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
+    auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
     //auto *top_con = new topController(0.25, 0.25, 3, 100); //rotation mode 
     //auto *top_con = new topController(0.40, 0.15, 3, 100);
     // auto *top_con = new topController(0, 0, 0.40, 0.15, 10.0, 100);
@@ -239,6 +239,9 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     
     static int para_intervene_a = 0; //、static キーワードがローカル変数の前に使われると、その変数は関数が終了しても存在し続け、再度その関数が呼び出されたときに前回の値を保持します。
 	static int para_intervene_b = 0; //para_interveneはreflexの回数を表している
+
+    static int para_intervene_a_model = 0; //、static キーワードがローカル変数の前に使われると、その変数は関数が終了しても存在し続け、再度その関数が呼び出されたときに前回の値を保持します。
+	static int para_intervene_b_model = 0; //para_interveneはreflexの回数を表している
     
     RateLoop *rater = new RateLoop(100, 14.0);
     //frequency of while loop will be 100 HZ, total experiment time is 16 seconds
@@ -258,7 +261,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         EntryFlag_Ib = 0;
         ExitFlag_Ib = 0;
         
-        temp_FeedbackFlag_Ia = low_con->FeedbackFlag_Ia; //SpinalCord *low_con = new SpinalCord(muscle_5, muscle_7)
+        temp_FeedbackFlag_Ia = low_con->FeedbackFlag_Ia; 
         temp_FeedbackFlag_Ib = low_con->FeedbackFlag_Ib;
 
         control_board.update_inputs();        
@@ -328,10 +331,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         }	 
 		//higher_commands = top_con->get_pattern(RHYTHMIC, para_intervene, alpha_m1, alpha_m2);
         
-        reflex_commands_agonist = low_con->agonist_Ia_innervation(); //maxtrackerの値を更新したり、CoConrinatorの値を更新したりする
-        reflex_commands_antagonist = low_con->antagonist_Ia_innervation();
-        //reflex_commands_agonist_model = low_con->agonist_Ia_innervation_model(); 
-        // reflex_commands_antagonist_model = low_con->antagonist_Ia_innervation_model();
+        // reflex_commands_agonist = low_con->agonist_Ia_innervation(); //maxtrackerの値を更新したり、CoConrinatorの値を更新したりする
+        // reflex_commands_antagonist = low_con->antagonist_Ia_innervation();
+        reflex_commands_agonist_model = low_con->agonist_Ia_innervation_model(); 
+        reflex_commands_antagonist_model = low_con->antagonist_Ia_innervation_model();
         reflex_gto_agonist = low_con->agonist_Ib_innervation();
         reflex_gto_antagonist = low_con->antagonist_Ib_innervation();
         
@@ -344,8 +347,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         std::cout <<"Ia homo exci =" << reflex_commands_antagonist.res_SR  << "  Ia anta inhi =" << reflex_commands_agonist.res_RI 
                   <<"   Ib homo inhi =" << reflex_gto_antagonist.res_AI    << "  Ib anta exci =" << reflex_gto_agonist.res_RE <<std::endl;
         */
-        switch(0)  //1は伸張反射のみ。作動圧力範囲は0.02~0.5MPa
-        {
+        switch(1)  
+        
             case 0: 
             {
                 alpha_m1 = higher_commands.goal_pressure_m1;
