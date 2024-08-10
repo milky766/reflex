@@ -11,15 +11,18 @@ SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
     antagonist_ = antagonist;
     t1 = micros() * 1e-6;
 
-    agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len) / Base_sensor_info_.base_agonist_len * 100;
-    agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len) / Base_sensor_info_model_.base_agonist_len* 100;
-
+    //agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len) / Base_sensor_info_.base_agonist_len * 100;
+    agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len);
+    // agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len)/Base_sensor_info_model_.base_agonist_len*100;
+        agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len);
     temp_agonist_len_ = agonist_len_;
     agonist_v_ = 0;
     agonist_tension_ = (static_cast<double>(agonist_->getMuscleState().current_tension_sensor_feedback) - static_cast<double>(Base_sensor_info_.base_agonist_tension)) ;
     agonist_filter_ = new IIRFilter(0.0);
 
-    antagonist_len_ = (antagonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_antagonist_len) / Base_sensor_info_.base_antagonist_len * 100;
+    //antagonist_len_ = (antagonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_antagonist_len) / Base_sensor_info_.base_antagonist_len * 100;
+    antagonist_len_ = (antagonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_antagonist_len);
+    temp_antagonist_len_ = antagonist_len_;
     temp_antagonist_len_ = antagonist_len_;
     antagonist_v_ = 0;
     antagonist_tension_ = (static_cast<double>(antagonist_->getMuscleState().current_tension_sensor_feedback) - static_cast<double>(Base_sensor_info_.base_antagonist_tension)) ;
@@ -30,7 +33,8 @@ SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
     agonist_v_model_ = 0;
     agonist_filter_model_ = new IIRFilter(0.0);
 
-    antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len) / Base_sensor_info_model_.base_antagonist_len * 100;
+    // antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len) / Base_sensor_info_model_.base_antagonist_len * 100;
+    antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len) ;
     temp_antagonist_len_model_ = antagonist_len_model_;
     antagonist_v_model_ = 0;
     antagonist_filter_model_ = new IIRFilter(0.0); //これいらないかも
@@ -87,12 +91,17 @@ void SpinalCord::update_base_sensor_info_model()
 
 void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
 {
-    temp_agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len) / Base_sensor_info_.base_agonist_len * 100; 
-    temp_antagonist_len_ = (antagonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_antagonist_len) / Base_sensor_info_.base_antagonist_len * 100;
+    // temp_agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len) / Base_sensor_info_.base_agonist_len * 100; 
+    // temp_antagonist_len_ = (antagonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_antagonist_len) / Base_sensor_info_.base_antagonist_len * 100;
 
-    temp_agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len) / Base_sensor_info_model_.base_agonist_len * 100;
-    temp_antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len) / Base_sensor_info_model_.base_antagonist_len * 100;
-    
+    // temp_agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len) / Base_sensor_info_model_.base_agonist_len * 100;
+    // temp_antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len) / Base_sensor_info_model_.base_antagonist_len * 100;
+
+    temp_agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len); 
+    temp_antagonist_len_ = (antagonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_antagonist_len);
+
+    temp_agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len);
+    temp_antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len);
     
     t2 = micros() * 1e-6; dt = t2 - t1; t1 = t2;
 		

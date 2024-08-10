@@ -117,10 +117,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 //change mode : 1
-    auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
+    auto *top_con = new topController(0.6);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
     //auto *top_con = new topController(0.25, 0.25, 3, 100); //rotation mode 
     //auto *top_con = new topController(0.40, 0.15, 3, 100);
-    //auto *top_con = new topController(0, 0, 0.40, 0.15, 10.0, 100);
+    // auto *top_con = new topController(0, 0, 0.40, 0.15, 10.0, 100);
     //topController top_con(0.40, 0.15, 3, HZ);
     //topController top_con(0.3, 0.3, 3, HZ);
     topController::goal_pressure higher_commands = {0.1, 0.1}; //goal_pressure_m1とgoal_pressure_m2
@@ -228,8 +228,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
             FirstRun = false;
         }
-        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.25, .goal_activation = 0.0});
-        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.25, .goal_activation = 0.0});
+        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.6, .goal_activation = 0.0});
+        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.6, .goal_activation = 0.0});
 	}
     //muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
     //std::cout << "start" << std:: endl;
@@ -378,14 +378,14 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
             }
         }
         
-		if (alpha_m1 > 0.7) {
-            alpha_m1 = 0.7;
+		if (alpha_m1 > 0.6) {
+            alpha_m1 = 0.6;
         } else if (alpha_m1 < 0.02) {
             alpha_m1 = 0.02;
         }
        
-		if (alpha_m2 > 0.5) {
-            alpha_m2 = 0.5;
+		if (alpha_m2 > 0.6) {
+            alpha_m2 = 0.6;
         } else if (alpha_m2 < 0.02) {
             alpha_m2 = 0.02;
         }
