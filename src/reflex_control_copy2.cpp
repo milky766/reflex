@@ -135,8 +135,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     SpinalCord::Sensor_info sensor_info_antagonist;
     SpinalCord::Sensor_info sensor_info_agonist_model;
     SpinalCord::Sensor_info sensor_info_antagonist_model;
-    // SpinalCord::Sensor_info_model sensor_info_agonist_model;
-    // SpinalCord::Sensor_info_model sensor_info_antagonist_model;
     // SpinalCord::Length_model length_model_agonist;
     // SpinalCord::Length_model length_model_antagonist;
 
@@ -171,12 +169,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     double *ms_data_left_speed_model = new double[100000];
     double *ms_data_right_speed_model = new double[100000];
 
-    // double *natural_length_left = new double[100000];
-    // double *natural_length_right = new double[100000];
-    // double *deformation_left = new double[100000];
-    // double *deformation_right = new double[100000];
-
-
     double *g_pressure_1 = new double[100000];
     double *g_pressure_2 = new double[100000];
     double *ago_SR = new double[100000]; //Stretch reflex
@@ -195,8 +187,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     double base_a_len, base_anta_len, base_a_tension, base_anta_tension;
     //追加
     double base_a_len_model, base_anta_len_model;
-
-    double base_angle;
 
     int *marker = new int[100000];
     int *angle = new int[100000];
@@ -236,12 +226,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
             base_a_tension = low_con->getBaseSensorInfo().base_agonist_tension;
             base_anta_tension = low_con->getBaseSensorInfo().base_antagonist_tension;
 
-            base_angle = control_board.getPotentiometerData(potentiometer_idx);
-
             FirstRun = false;
         }
-        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.4, .goal_activation = 0.0});
-        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.4, .goal_activation = 0.0});
+        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
+        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
 	}
     //muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
     //std::cout << "start" << std:: endl;
@@ -432,12 +420,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         ms_data_left_model[sample_count] = sensor_info_agonist_model.muscle_len;
         ms_data_left_speed_model[sample_count] = sensor_info_agonist_model.muscle_filtered_v;
 
-        // natural_length_left[sample_count] = sensor_info_agonist_model.natural_length;
-        // deformation_left[sample_count] = sensor_info_agonist_model.deformation;
-        // natural_lefft_right[sample_count] = sensor_info_antagonist_model.natural_length;
-        // deformation_right[sample_count] = sensor_info_antagonist_model.deformation;
-
-
         pressure_data_left[sample_count] = s_5.current_pressure;
 
         tension_data_right[sample_count] = sensor_info_antagonist.muscle_tension;
@@ -454,7 +436,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
         pressure_data_right[sample_count] = s_7.current_pressure;
 
-        angle[sample_count] = control_board.getPotentiometerData(potentiometer_idx)-base_angle;
+        angle[sample_count] = control_board.getPotentiometerData(potentiometer_idx);
 
         ago_SR[sample_count] = reflex_commands_agonist.res_SR;
         ago_SR_model[sample_count] = reflex_commands_agonist_model.res_SR;
@@ -538,10 +520,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
          << "ms_left_model,"
          <<"ms_speed_left," 
          <<"ms_speed_left_model," 
-        //  <<"natural_length_left,"
-        //  <<"deformation_left,"
-        //  <<"natural_length_right,"
-        //  <<"deformation_right,"
          << "pressure_left," << "g_pressure_1,"<< "tension_right,"<< "ms_right," 
          << "ms_right_model,"
          <<"ms_speed_right," 
@@ -578,10 +556,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
              << ms_data_left_model[i] << ","
              << ms_data_left_speed[i] << ","
              << ms_data_left_speed_model[i] << ","
-            //  << natural_length_left[i] << ","
-            //  << deformation_left[i] << ","
-            //  << natural_length_right[i] << ","
-            //  << deformation_right[i] << ","
              << pressure_data_left[i] << "," << g_pressure_1[i] << ","
              << tension_data_right[i] << "," << ms_data_right[i] << ","
              << ms_data_right_model[i] << ","
@@ -634,11 +608,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     delete[] antago_RI_model;
     delete[] antago_SR;
     delete[] antago_SR_model;
-    // delete[] natural_length_left;
-    // delete[] natural_length_right;
-    // delete[] deformation_left;
-    // delete[] deformation_right;
-
 
     //delete[] MT_a_Ib;
     //delete[] MT_anta_Ib;
@@ -648,7 +617,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     delete low_con;
 	delete initiator;
     pthread_exit(NULL);
-
 }
 
 

@@ -206,27 +206,83 @@ double SpinalCord::calculateLength(int muscle_idx, uint16_t voltage, double pres
         voltage_base = Base_sensor_info_.base_antagonist_tension;
 
     }
-    double L_d = 10;  // 適当な初期値を設定
+    double L_d = 1;  // 適当な初期値を設定
     double tolerance = 1e-1; //0.1の誤差まで許容する
     double maxIterations = 50; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
     int iteration = 0;
+    double function_value = 0;
+    double derivative_value = 0;
+    double error = 0;
     double voltage_diff = static_cast<double>(voltage - voltage_base);
+
+
     while (iteration < maxIterations) {
         // 関数の値とその導関数を計算
-        voltage_diff = (a_3_new * pressure * L_d + a_2_new * + a_1_new * L_d + a_0_new) * L_d - voltage_diff;
-        double dv = a_3_new * pressure * L_d + a_2_new * pressure + 2 * a_1_new * L_d + a_0_new;
-        double delta = -voltage_diff/ dv;
-        L_d += delta;
-        if (std::abs(delta) < tolerance) break;
+
+        function_value = (a_3_new * pressure * L_d + a_2_new * pressure + a_1_new * L_d + a_0_new) * L_d - voltage_diff;
+        derivative_value = 2 * a_3_new * pressure * L_d + a_2_new * pressure + 2 * a_1_new * L_d + a_0_new;
+        error = -function_value / derivative_value;
+        L_d = L_d + error;
+        if (std::abs(error) < tolerance) break;
         iteration++;
     }
 
     double natural_length;
     natural_length = natural_length_slope * pressure + natural_length_intercept;
 
-    return natural_length + L_d;
+    return  natural_length +L_d;
 
 }
+
+// double SpinalCord::calculateLength(int muscle_idx, uint16_t voltage, double pressure)
+// {
+//     double a_3_new, a_2_new, a_1_new, a_0_new, natural_length_slope, natural_length_intercept;
+//     uint16_t voltage_base;
+
+//     if (muscle_idx == 5) {
+//         a_3_new = a_3_agonist_new;
+//         a_2_new = a_2_agonist_new;
+//         a_1_new = a_1_agonist_new;
+//         a_0_new = a_0_agonist_new;
+//         natural_length_slope = natural_length_slope_agonist;
+//         natural_length_intercept = natural_length_intercept_agonist;
+//         voltage_base = Base_sensor_info_.base_agonist_tension;
+//     } else {
+//         a_3_new = a_3_antagonist_new;
+//         a_2_new = a_2_antagonist_new;
+//         a_1_new = a_1_antagonist_new;
+//         a_0_new = a_0_antagonist_new;
+//         natural_length_slope = natural_length_slope_antagonist;
+//         natural_length_intercept = natural_length_intercept_antagonist;
+//         voltage_base = Base_sensor_info_.base_antagonist_tension;
+
+//     }
+//     double L_d = 1;  // 適当な初期値を設定
+//     double tolerance = 1e-1; //0.1の誤差まで許容する
+//     double maxIterations = 50; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
+//     int iteration = 0;
+//     double function_value = 0;
+//     double derivative_value = 0;
+//     double error = 0;
+//     double voltage_diff = static_cast<double>(voltage - voltage_base);
+
+
+//     while (iteration < maxIterations) {
+//         // 関数の値とその導関数を計算
+
+//         function_value = (a_3_new * pressure * L_d + a_2_new * pressure + a_1_new * L_d + a_0_new) * L_d - voltage_diff;
+//         derivative_value = 2 * a_3_new * pressure * L_d + a_2_new * pressure + 2 * a_1_new * L_d + a_0_new;
+//         error = -function_value / derivative_value;
+//         if (std::abs(error) < tolerance) break;
+//         iteration++;
+//     }
+
+//     double natural_length;
+//     natural_length = natural_length_slope * pressure + natural_length_intercept;
+
+//     return natural_length + L_d;
+
+// }
 
 double SpinalCord::calculateDeformation(int muscle_idx, uint16_t voltage, double pressure)
 {
@@ -251,7 +307,7 @@ double SpinalCord::calculateDeformation(int muscle_idx, uint16_t voltage, double
         voltage_base = Base_sensor_info_.base_antagonist_tension;
 
     }
-    double L_d = 10;  // 適当な初期値を設定
+    double L_d = 1;  // 適当な初期値を設定
     double tolerance = 1e-1; //0.1の誤差まで許容する
     double maxIterations = 50; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
     int iteration = 0;
@@ -776,5 +832,3 @@ uint64_t SpinalCord::micros()
             now().time_since_epoch()).count();
     return us;
 }
-
-

@@ -150,6 +150,13 @@ public:
         double muscle_tension;
     };
 
+    struct Sensor_info_model
+    {
+        double muscle_len_model, muscle_v_model, muscle_filtered_v_model;
+        double natural_len_model,deformation_model;
+        double muscle_tension_model;
+    };
+
     struct Base_sensor_info
     {
         double base_agonist_len, base_antagonist_len;
@@ -191,6 +198,7 @@ public:
     Sensor_info get_antagonist_sensor_info_model();
 
     double calculateLength(int muscle_idx, uint16_t voltage, double pressure);
+    double calculateNaturalLength(int muscle_idx, double pressure);
     double calculateDeformation(int muscle_idx, uint16_t voltage, double pressure);
 
     uint64_t micros();
@@ -271,6 +279,7 @@ private:
 
     double t1, t2, dt;
     double agonist_len_, temp_agonist_len_, agonist_v_, filtered_agonist_v_;
+    // double agonist_natural_len_,antagonist_natural_len_;
     double agonist_tension_;
     double antagonist_len_, temp_antagonist_len_, antagonist_v_, filtered_antagonist_v_;
     double antagonist_tension_;
