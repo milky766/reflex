@@ -117,10 +117,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 //change mode : 1
-    auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
+    //auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
     //auto *top_con = new topController(0.25, 0.25, 3, 100); //rotation mode 
-    //auto *top_con = new topController(0.40, 0.15, 3, 100);
-    // auto *top_con = new topController(0, 0, 0.40, 0.15, 10.0, 100);
+    // auto *top_con = new topController(0.60, 0.40, 3, 100);
+     auto *top_con = new topController(0, 0, 0.60, 0.20, 10.0, 100);
     //topController top_con(0.40, 0.15, 3, HZ);
     //topController top_con(0.3, 0.3, 3, HZ);
     topController::goal_pressure higher_commands = {0.1, 0.1}; //goal_pressure_m1とgoal_pressure_m2
@@ -133,8 +133,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     SpinalCord::GTO_feedback reflex_gto_antagonist = {0,0, false};
     SpinalCord::Sensor_info sensor_info_agonist;
     SpinalCord::Sensor_info sensor_info_antagonist;
-    SpinalCord::Sensor_info sensor_info_agonist_model;
-    SpinalCord::Sensor_info sensor_info_antagonist_model;
+    SpinalCord::Sensor_info_model sensor_info_agonist_model;
+    SpinalCord::Sensor_info_model sensor_info_antagonist_model;
     // SpinalCord::Sensor_info_model sensor_info_agonist_model;
     // SpinalCord::Sensor_info_model sensor_info_antagonist_model;
     // SpinalCord::Length_model length_model_agonist;
@@ -171,10 +171,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     double *ms_data_left_speed_model = new double[100000];
     double *ms_data_right_speed_model = new double[100000];
 
-    // double *natural_length_left = new double[100000];
-    // double *natural_length_right = new double[100000];
-    // double *deformation_left = new double[100000];
-    // double *deformation_right = new double[100000];
+    double *natural_len_right_model= new double[100000];
+    double *natural_len_left_model = new double[100000];
+    double *deformation_left_model = new double[100000];
+    double *deformation_right_model = new double[100000];
 
 
     double *g_pressure_1 = new double[100000];
@@ -205,10 +205,11 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     double alpha_m1, alpha_m2;
 
     double PreAlpha_m1, PreAlpha_m2;
-    int EntryFlag_Ia, ExitFlag_Ia;
+    // int EntryFlag_Ia, ExitFlag_Ia;
+    int EntryFlag_Ia_model, ExitFlag_Ia_model;
     int EntryFlag_Ib, ExitFlag_Ib;
 
-    int temp_FeedbackFlag_Ia = 0;
+    int temp_FeedbackFlag_Ia_model = 0;
     int temp_FeedbackFlag_Ib = 0;
 
     bool result;
@@ -236,12 +237,19 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
             base_a_tension = low_con->getBaseSensorInfo().base_agonist_tension;
             base_anta_tension = low_con->getBaseSensorInfo().base_antagonist_tension;
 
-            base_angle = control_board.getPotentiometerData(potentiometer_idx);
 
             FirstRun = false;
         }
-        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.4, .goal_activation = 0.0});
-        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.4, .goal_activation = 0.0});
+        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.20, .goal_activation = 0.0});
+        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.60, .goal_activation = 0.0});
+        
+        static bool FirstRun2 = true;
+        if (FirstRun2)
+        {
+            base_angle = control_board.getPotentiometerData(potentiometer_idx);
+            FirstRun2 = false;
+        }
+
 	}
     //muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
     //std::cout << "start" << std:: endl;
@@ -267,23 +275,26 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         //     FirstRun = false;
         // }
         
-        EntryFlag_Ia = 0;
-        ExitFlag_Ia = 0;
+        // EntryFlag_Ia = 0;
+        // ExitFlag_Ia = 0;
+                
+        EntryFlag_Ia_model = 0;
+        ExitFlag_Ia_model = 0;
         
         EntryFlag_Ib = 0;
         ExitFlag_Ib = 0;
         
-        temp_FeedbackFlag_Ia = low_con->FeedbackFlag_Ia; 
+        temp_FeedbackFlag_Ia_model = low_con->FeedbackFlag_Ia_model; 
         temp_FeedbackFlag_Ib = low_con->FeedbackFlag_Ib;
 
         control_board.update_inputs();        
 
         low_con->update_sensor_info(para_intervene_a,para_intervene_b);
         
-        if(temp_FeedbackFlag_Ia != low_con->FeedbackFlag_Ia && low_con->FeedbackFlag_Ia == 1){
-            EntryFlag_Ia = 1;
-        }else if(temp_FeedbackFlag_Ia != low_con->FeedbackFlag_Ia && low_con->FeedbackFlag_Ia == 0){
-            ExitFlag_Ia = 1;
+        if(temp_FeedbackFlag_Ia_model != low_con->FeedbackFlag_Ia_model && low_con->FeedbackFlag_Ia_model == 1){
+            EntryFlag_Ia_model = 1;
+        }else if(temp_FeedbackFlag_Ia_model != low_con->FeedbackFlag_Ia_model && low_con->FeedbackFlag_Ia_model == 0){
+            ExitFlag_Ia_model = 1;
         }
 
         if(temp_FeedbackFlag_Ib != low_con->FeedbackFlag_Ib && low_con->FeedbackFlag_Ib == 1){
@@ -292,7 +303,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
             ExitFlag_Ib = 1;
         }
 
-        if(EntryFlag_Ia == 1){
+        if(EntryFlag_Ia_model == 1){
             PreAlpha_m1 = alpha_m1;
             PreAlpha_m2 = alpha_m2;
         }
@@ -304,7 +315,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
         //result = temp_FeedbackFlag != low_con->FeedbackFlag_;
 
-                std::cout << "******EntryFlag_Ia = " << EntryFlag_Ia << "*****ExitFlag_Ia = " << ExitFlag_Ia << "*****temp_FeedbackFlag_Ia =" << temp_FeedbackFlag_Ia << std::endl;
+                std::cout << "******EntryFlag_Ia = " << EntryFlag_Ia_model << "*****ExitFlag_Ia = " << ExitFlag_Ia_model << "*****temp_FeedbackFlag_Ia =" << temp_FeedbackFlag_Ia_model << std::endl;
                 std::cout << "******EntryFlag_Ib = " << EntryFlag_Ib << "*****ExitFlag_Ib = " << ExitFlag_Ib << "*****temp_FeedbackFlag_Ib =" << temp_FeedbackFlag_Ib << std::endl;
 
                 
@@ -317,7 +328,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 //change mode: 2 //タスク
-		switch(1) //switch文は、複数の条件によって処理を分岐するための制御構造です。今回は必ずcase1が実行される
+		switch(0) //switch文は、複数の条件によって処理を分岐するための制御構造です。今回は必ずcase1が実行される
         { 
             case 0: 
             {
@@ -334,7 +345,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
             }
             case 2:
             {
-                if(ExitFlag_Ia == 1 || ExitFlag_Ib == 1)
+                if(ExitFlag_Ia_model == 1 || ExitFlag_Ib == 1)
                     higher_commands = top_con->get_pattern(REACHING, PreAlpha_m1, PreAlpha_m2);
                 else
                     higher_commands = top_con->get_pattern(REACHING);//reflexありのreaching
@@ -359,7 +370,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         std::cout <<"Ia homo exci =" << reflex_commands_antagonist.res_SR  << "  Ia anta inhi =" << reflex_commands_agonist.res_RI 
                   <<"   Ib homo inhi =" << reflex_gto_antagonist.res_AI    << "  Ib anta exci =" << reflex_gto_agonist.res_RE <<std::endl;
         */
-        switch(1)  
+        switch(0)  
         {
             case 0: 
             {
@@ -367,18 +378,18 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
                 alpha_m2 = higher_commands.goal_pressure_m2;
                 break;
             }
-            case 1:
-            {
-                alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist.res_SR - reflex_commands_antagonist.res_RI;
-                alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist.res_SR - reflex_commands_agonist.res_RI;
-                break;
-            }
             // case 1:
             // {
-            //     alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist_model.res_SR - reflex_commands_antagonist_model.res_RI;
-            //     alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist_model.res_SR - reflex_commands_agonist_model.res_RI;
+            //     alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist.res_SR - reflex_commands_antagonist.res_RI;
+            //     alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist.res_SR - reflex_commands_agonist.res_RI;
             //     break;
             // }
+            case 1:
+            {
+                alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist_model.res_SR - reflex_commands_antagonist_model.res_RI;
+                alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist_model.res_SR - reflex_commands_agonist_model.res_RI;
+                break;
+            }
             case 2:
             {
                 alpha_m1 = higher_commands.goal_pressure_m1 - reflex_gto_agonist.res_AI + reflex_gto_antagonist.res_RE;
@@ -393,14 +404,14 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
             }
         }
         
-		if (alpha_m1 > 0.6) {
-            alpha_m1 = 0.6;
+		if (alpha_m1 > 0.7) {
+            alpha_m1 = 0.7;
         } else if (alpha_m1 < 0.02) {
             alpha_m1 = 0.02;
         }
        
-		if (alpha_m2 > 0.6) {
-            alpha_m2 = 0.6;
+		if (alpha_m2 > 0.7) {
+            alpha_m2 = 0.7;
         } else if (alpha_m2 < 0.02) {
             alpha_m2 = 0.02;
         }
@@ -429,8 +440,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         ms_data_left[sample_count] = sensor_info_agonist.muscle_len;
         ms_data_left_speed[sample_count] = sensor_info_agonist.muscle_filtered_v;
 
-        ms_data_left_model[sample_count] = sensor_info_agonist_model.muscle_len;
-        ms_data_left_speed_model[sample_count] = sensor_info_agonist_model.muscle_filtered_v;
+        ms_data_left_model[sample_count] = sensor_info_agonist_model.muscle_len_model;
+        ms_data_left_speed_model[sample_count] = sensor_info_agonist_model.muscle_filtered_v_model;
 
         // natural_length_left[sample_count] = sensor_info_agonist_model.natural_length;
         // deformation_left[sample_count] = sensor_info_agonist_model.deformation;
@@ -444,17 +455,19 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         ms_data_right[sample_count] = sensor_info_antagonist.muscle_len;
         ms_data_right_speed[sample_count] = sensor_info_antagonist.muscle_filtered_v;
 
-        ms_data_left_model[sample_count] = sensor_info_agonist_model.muscle_len;
-        ms_data_left_speed_model[sample_count] = sensor_info_agonist_model.muscle_filtered_v;
-
         
-        ms_data_right_model[sample_count] = sensor_info_antagonist_model.muscle_len;
-        ms_data_right_speed_model[sample_count] = sensor_info_antagonist_model.muscle_filtered_v;
+        ms_data_right_model[sample_count] = sensor_info_antagonist_model.muscle_len_model;
+        ms_data_right_speed_model[sample_count] = sensor_info_antagonist_model.muscle_filtered_v_model;
+
+        natural_len_right_model[sample_count] = sensor_info_antagonist_model.natural_len_model;
+        deformation_right_model[sample_count] = sensor_info_antagonist_model.deformation_model;
+        natural_len_left_model[sample_count] = sensor_info_agonist_model.natural_len_model;
+        deformation_left_model[sample_count] = sensor_info_agonist_model.deformation_model;
 
 
         pressure_data_right[sample_count] = s_7.current_pressure;
 
-        angle[sample_count] = control_board.getPotentiometerData(potentiometer_idx)-base_angle;
+        angle[sample_count] = control_board.getPotentiometerData(potentiometer_idx);
 
         ago_SR[sample_count] = reflex_commands_agonist.res_SR;
         ago_SR_model[sample_count] = reflex_commands_agonist_model.res_SR;
@@ -546,6 +559,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
          << "ms_right_model,"
          <<"ms_speed_right," 
          <<"ms_speed_right_model," 
+         <<"natural_length_right_model,"
+         <<"deformation_right_model,"
+         <<"natural_length_left_model,"
+         <<"deformation_left_model,"
          << "pressure_right," <<"g_pressure_2,"<< "start of cycle," << "angle," 
          << "m5_Ia_+,"<< "m5_Ia_model_+," << "m5_Ia_-,"<< "m5_Ia_model_-," << "m5_Ib_-," << "m5_Ib_+," 
          << "m7_Ia_+," << "m7_Ia_model_+," << "m7_Ia_-,"<< "m7_Ia_model_-," << "m7_Ib_-," << "m7_Ib_+," 
@@ -557,9 +574,11 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
          << base_a_tension << ","
          << base_anta_tension << ","
+         <<base_angle << ","
          << std::endl;
          
-    for (int i = 0; i <= sample_count; i++)
+    //for (int i = 0; i <= sample_count - 1; i++)
+    for (int i = 200; i <= sample_count - 1; i++)
     {
         file 
             //  << i << "\t" << tension_data_left[i] << "\t" << ms_data_left[i] << "\t" 
@@ -578,15 +597,15 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
              << ms_data_left_model[i] << ","
              << ms_data_left_speed[i] << ","
              << ms_data_left_speed_model[i] << ","
-            //  << natural_length_left[i] << ","
-            //  << deformation_left[i] << ","
-            //  << natural_length_right[i] << ","
-            //  << deformation_right[i] << ","
              << pressure_data_left[i] << "," << g_pressure_1[i] << ","
              << tension_data_right[i] << "," << ms_data_right[i] << ","
              << ms_data_right_model[i] << ","
              << ms_data_right_speed[i] << ","
              << ms_data_right_speed_model[i] << ","
+             << natural_len_right_model[i] << ","
+             << deformation_right_model[i] << ","
+             << natural_len_left_model[i] << ","
+             << deformation_left_model[i] << ","
              << pressure_data_right[i] << "," << g_pressure_2[i] << "," << marker[i] << "," << angle[i] << "," 
              << ago_SR[i] << "," << ago_SR_model[i] << "," << ago_RI[i] << "," << ago_RI_model[i] << "," << ago_AI[i] << "," << ago_RE[i] << "," 
              << antago_SR[i] << "," << antago_SR_model[i] << "," << antago_RI[i] << "," << antago_RI_model[i] << "," << antago_AI[i] << "," << antago_RE[i]
@@ -634,10 +653,11 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     delete[] antago_RI_model;
     delete[] antago_SR;
     delete[] antago_SR_model;
-    // delete[] natural_length_left;
-    // delete[] natural_length_right;
-    // delete[] deformation_left;
-    // delete[] deformation_right;
+    delete[] natural_len_right_model;
+    delete[] natural_len_left_model;
+    delete[] deformation_left_model;
+    delete[] deformation_right_model;
+
 
 
     //delete[] MT_a_Ib;

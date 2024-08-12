@@ -14,7 +14,8 @@ SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
     //agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len) / Base_sensor_info_.base_agonist_len * 100;
     agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len);
     // agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len)/Base_sensor_info_model_.base_agonist_len*100;
-    agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len);
+    //agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len);
+    agonist_len_model_ = calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure);
     temp_agonist_len_ = agonist_len_;
     agonist_v_ = 0;
     agonist_tension_ = (static_cast<double>(agonist_->getMuscleState().current_tension_sensor_feedback) - static_cast<double>(Base_sensor_info_.base_agonist_tension)) ;
@@ -34,7 +35,8 @@ SpinalCord::SpinalCord(Muscle* agonist, Muscle* antagonist) {
     agonist_filter_model_ = new IIRFilter(0.0);
 
     // antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len) / Base_sensor_info_model_.base_antagonist_len * 100;
-    antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len) ;
+    //antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len) ;
+    antagonist_len_model_ = calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) ;
     temp_antagonist_len_model_ = antagonist_len_model_;
     antagonist_v_model_ = 0;
     antagonist_filter_model_ = new IIRFilter(0.0); //これいらないかも
@@ -100,8 +102,15 @@ void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
     temp_agonist_len_ = (agonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_agonist_len); 
     temp_antagonist_len_ = (antagonist_->getMuscleState().current_ms_resistance - Base_sensor_info_.base_antagonist_len);
 
-    temp_agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len);
-    temp_antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len);
+    //temp_agonist_len_model_ = (calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_agonist_len);
+    //emp_antagonist_len_model_ = (calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure) - Base_sensor_info_model_.base_antagonist_len);
+    temp_agonist_len_model_ = calculateLength(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure) ;
+    temp_antagonist_len_model_ = calculateLength(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure);
+
+    agonist_natural_len_model_ = calculateNaturalLength(5, agonist_->getMuscleState().current_pressure);
+    antagonist_natural_len_model_ = calculateNaturalLength(7, antagonist_->getMuscleState().current_pressure);
+    agonist_deformation_model_ = calculateDeformation(5, agonist_->getMuscleState().current_tension_sensor_feedback, agonist_->getMuscleState().current_pressure);
+    antagonist_deformation_model_ = calculateDeformation(7, antagonist_->getMuscleState().current_tension_sensor_feedback, antagonist_->getMuscleState().current_pressure);
     
     t2 = micros() * 1e-6; dt = t2 - t1; t1 = t2;
 		
@@ -121,8 +130,8 @@ void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
     MaxTracker_.anta_Ia = std::max(filtered_antagonist_v_/200, MaxTracker_.anta_Ia);
 
      
-    MaxTracker_model_.a_Ia = std::max(filtered_agonist_v_model_/2000, MaxTracker_model_.a_Ia); //2000の値はmodelにしたことで大きく変わるはず。何度も実験して調整
-    MaxTracker_model_.anta_Ia = std::max(filtered_antagonist_v_model_/200, MaxTracker_model_.anta_Ia);
+    MaxTracker_model_.a_Ia = std::max(filtered_agonist_v_model_/100, MaxTracker_model_.a_Ia); //2000の値はmodelにしたことで大きく変わるはず。何度も実験して調整
+    MaxTracker_model_.anta_Ia = std::max(filtered_antagonist_v_model_/100, MaxTracker_model_.anta_Ia);
 
     agonist_len_ = temp_agonist_len_; antagonist_len_ = temp_antagonist_len_;
     agonist_len_model_ = temp_agonist_len_model_; antagonist_len_model_= temp_antagonist_len_model_;
@@ -165,7 +174,8 @@ void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
     	
     
 
-    check_if_stretched(parameter_a);
+    //check_if_stretched(parameter_a);
+    check_if_stretched_model(parameter_a);
     //check_if_Hardern();
     //check_if_force(parameter_b);
     
@@ -206,9 +216,9 @@ double SpinalCord::calculateLength(int muscle_idx, uint16_t voltage, double pres
         voltage_base = Base_sensor_info_.base_antagonist_tension;
 
     }
-    double L_d = 1;  // 適当な初期値を設定
+    double L_d = 3;  // 適当な初期値を設定
     double tolerance = 1e-1; //0.1の誤差まで許容する
-    double maxIterations = 50; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
+    double maxIterations = 100; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
     int iteration = 0;
     double function_value = 0;
     double derivative_value = 0;
@@ -284,9 +294,29 @@ double SpinalCord::calculateLength(int muscle_idx, uint16_t voltage, double pres
 
 // }
 
+double SpinalCord::calculateNaturalLength(int muscle_idx, double pressure)
+{
+    double natural_length_slope, natural_length_intercept;
+
+    if (muscle_idx == 5) {
+        natural_length_slope = natural_length_slope_agonist;
+        natural_length_intercept = natural_length_intercept_agonist;
+    } else {
+        natural_length_slope = natural_length_slope_antagonist;
+        natural_length_intercept = natural_length_intercept_antagonist;
+
+    }
+
+    double natural_length;
+    natural_length = natural_length_slope * pressure + natural_length_intercept;
+
+    return  natural_length ;
+
+}
+
 double SpinalCord::calculateDeformation(int muscle_idx, uint16_t voltage, double pressure)
 {
-    double a_3_new, a_2_new, a_1_new, a_0_new, natural_length_slope, natural_length_intercept;
+    double a_3_new, a_2_new, a_1_new, a_0_new;
     uint16_t voltage_base;
 
     if (muscle_idx == 5) {
@@ -294,38 +324,39 @@ double SpinalCord::calculateDeformation(int muscle_idx, uint16_t voltage, double
         a_2_new = a_2_agonist_new;
         a_1_new = a_1_agonist_new;
         a_0_new = a_0_agonist_new;
-        natural_length_slope = natural_length_slope_agonist;
-        natural_length_intercept = natural_length_intercept_agonist;
         voltage_base = Base_sensor_info_.base_agonist_tension;
     } else {
         a_3_new = a_3_antagonist_new;
         a_2_new = a_2_antagonist_new;
         a_1_new = a_1_antagonist_new;
         a_0_new = a_0_antagonist_new;
-        natural_length_slope = natural_length_slope_antagonist;
-        natural_length_intercept = natural_length_intercept_antagonist;
         voltage_base = Base_sensor_info_.base_antagonist_tension;
 
     }
-    double L_d = 1;  // 適当な初期値を設定
+    double L_d = 3;  // 適当な初期値を設定
     double tolerance = 1e-1; //0.1の誤差まで許容する
-    double maxIterations = 50; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
+    double maxIterations = 100; //最大50回の繰り返しを許容する この3行は計算スピードに関わる。かなり重要かも
     int iteration = 0;
+    double function_value = 0;
+    double derivative_value = 0;
+    double error = 0;
     double voltage_diff = static_cast<double>(voltage - voltage_base);
+
+
     while (iteration < maxIterations) {
         // 関数の値とその導関数を計算
-        voltage_diff = (a_3_new * pressure * L_d + a_2_new * + a_1_new * L_d + a_0_new) * L_d - voltage_diff;
-        double dv = a_3_new * pressure * L_d + a_2_new * pressure + 2 * a_1_new * L_d + a_0_new;
-        double delta = -voltage_diff/ dv;
-        L_d += delta;
-        if (std::abs(delta) < tolerance) break;
+
+        function_value = (a_3_new * pressure * L_d + a_2_new * pressure + a_1_new * L_d + a_0_new) * L_d - voltage_diff;
+        derivative_value = 2 * a_3_new * pressure * L_d + a_2_new * pressure + 2 * a_1_new * L_d + a_0_new;
+        error = -function_value / derivative_value;
+        L_d = L_d + error;
+        if (std::abs(error) < tolerance) break;
         iteration++;
     }
 
-    return L_d;
+    return  L_d;
 
 }
-
 
 void SpinalCord::check_if_Hardern() //CoContraction
 {
@@ -806,14 +837,18 @@ SpinalCord::Sensor_info SpinalCord::get_antagonist_sensor_info() {
             .muscle_filtered_v = filtered_antagonist_v_, .muscle_tension = antagonist_tension_};
 }
 
-SpinalCord::Sensor_info SpinalCord::get_agonist_sensor_info_model()
+SpinalCord::Sensor_info_model SpinalCord::get_agonist_sensor_info_model()
 {
-    return {.muscle_len = agonist_len_model_, .muscle_v = agonist_v_model_,
-            .muscle_filtered_v = filtered_agonist_v_model_, .muscle_tension = agonist_tension_};
+    return {.muscle_len_model = agonist_len_model_, .muscle_v_model = agonist_v_model_,
+            .muscle_filtered_v_model = filtered_agonist_v_model_,
+            .natural_len_model=agonist_natural_len_model_,.deformation_model=agonist_deformation_model_,
+            .muscle_tension_model = agonist_tension_};
 }
-SpinalCord::Sensor_info SpinalCord::get_antagonist_sensor_info_model() {
-    return {.muscle_len = antagonist_len_model_, .muscle_v = antagonist_v_model_,
-            .muscle_filtered_v = filtered_antagonist_v_model_, .muscle_tension = antagonist_tension_};
+SpinalCord::Sensor_info_model SpinalCord::get_antagonist_sensor_info_model() {
+    return {.muscle_len_model = antagonist_len_model_, .muscle_v_model = antagonist_v_model_,
+            .muscle_filtered_v_model = filtered_antagonist_v_model_, 
+            .natural_len_model=antagonist_natural_len_model_,.deformation_model=antagonist_deformation_model_,
+            .muscle_tension_model = antagonist_tension_};
 }
 
 SpinalCord::Base_sensor_info SpinalCord::getBaseSensorInfo(){

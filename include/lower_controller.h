@@ -33,8 +33,8 @@
 #define Ia_a_cap 260
 #define Ia_anta_cap 2500 //threshhold for Ia_anta 調整が必要
 
-#define Ia_a_cap_model 50000
-#define Ia_anta_cap_model 50000 //threshhold for Ia_anta 調整が必要
+#define Ia_a_cap_model 15
+#define Ia_anta_cap_model 15 //threshhold for Ia_anta 調整が必要
 
 #define sub_Ia_a_cap 150 //co-contraction
 #define sub_Ia_anta_cap 1.5
@@ -43,8 +43,8 @@
 #define Harden_Magnitude 0.05
 
 //追加 ひずみゲージからの電気信号を力に変換するためのパラメータ,実験で求めて入力する
-#define tension_voltage_slope_agonist 69.76
-#define tension_voltage_slope_antagonist 92.85
+#define tension_voltage_slope_agonist -1.84
+#define tension_voltage_slope_antagonist 3.55
 
 //追加 パラメータを手動入力する
 //1回目の実験、low(0.2-0.6MPa)
@@ -60,15 +60,15 @@
 
 // a_i_agonist_new = a_i_agonist*tension_voltage_slope_agonist
 
-#define a_3_agonist_new -14.01
-#define a_2_agonist_new 488.45
-#define a_1_agonist_new 17.87
-#define a_0_agonist_new 63.55
+#define a_3_agonist_new 0.369
+#define a_2_agonist_new -12.9
+#define a_1_agonist_new -0.471
+#define a_0_agonist_new -1.67
 
-#define a_3_antagonist_new 22.78
-#define a_2_antagonist_new 32.36
-#define a_1_antagonist_new -3.39
-#define a_0_antagonist_new 586.60
+#define a_3_antagonist_new 0.871
+#define a_2_antagonist_new 1.24
+#define a_1_antagonist_new -0.129
+#define a_0_antagonist_new 22.42
 
 #define  natural_length_slope_agonist -60.1
 #define  natural_length_slope_antagonist -70.3
@@ -194,8 +194,8 @@ public:
 
     Sensor_info get_agonist_sensor_info();
     Sensor_info get_antagonist_sensor_info();
-    Sensor_info get_agonist_sensor_info_model();
-    Sensor_info get_antagonist_sensor_info_model();
+    Sensor_info_model get_agonist_sensor_info_model();
+    Sensor_info_model get_antagonist_sensor_info_model();
 
     double calculateLength(int muscle_idx, uint16_t voltage, double pressure);
     double calculateNaturalLength(int muscle_idx, double pressure);
@@ -292,6 +292,8 @@ private:
 
     //追加 tension_model_はtension_と全く同じになるので作らない
     double agonist_len_model_, temp_agonist_len_model_, agonist_v_model_, filtered_agonist_v_model_;
+    double agonist_natural_len_model_, agonist_deformation_model_;
+    double antagonist_natural_len_model_, antagonist_deformation_model_;
     double antagonist_len_model_, temp_antagonist_len_model_, antagonist_v_model_, filtered_antagonist_v_model_;
     double base_agonist_len_model_, base_antagonist_len_model_;
 
