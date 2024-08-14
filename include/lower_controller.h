@@ -33,8 +33,11 @@
 #define Ia_a_cap 260
 #define Ia_anta_cap 2500 //threshhold for Ia_anta 調整が必要
 
-#define Ia_a_cap_model 15
-#define Ia_anta_cap_model 15 //threshhold for Ia_anta 調整が必要
+// #define Ia_a_cap_model 200
+// #define Ia_anta_cap_model 100 //threshhold for Ia_anta 調整が必要
+
+#define Ia_a_cap_model 100000
+#define Ia_anta_cap_model 100000 //threshhold for Ia_anta 調整が必要
 
 #define sub_Ia_a_cap 150 //co-contraction
 #define sub_Ia_anta_cap 1.5

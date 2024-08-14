@@ -130,8 +130,8 @@ void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
     MaxTracker_.anta_Ia = std::max(filtered_antagonist_v_/200, MaxTracker_.anta_Ia);
 
      
-    MaxTracker_model_.a_Ia = std::max(filtered_agonist_v_model_/100, MaxTracker_model_.a_Ia); //2000の値はmodelにしたことで大きく変わるはず。何度も実験して調整
-    MaxTracker_model_.anta_Ia = std::max(filtered_antagonist_v_model_/100, MaxTracker_model_.anta_Ia);
+    MaxTracker_model_.a_Ia = std::max(filtered_agonist_v_model_/720, MaxTracker_model_.a_Ia); //2000の値はmodelにしたことで大きく変わるはず。何度も実験して調整
+    MaxTracker_model_.anta_Ia = std::max(filtered_antagonist_v_model_/250, MaxTracker_model_.anta_Ia);
 
     agonist_len_ = temp_agonist_len_; antagonist_len_ = temp_antagonist_len_;
     agonist_len_model_ = temp_agonist_len_model_; antagonist_len_model_= temp_antagonist_len_model_;
