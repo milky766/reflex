@@ -51,7 +51,6 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
     //Neutral Position of Valve is at 5V. So clamps are set to -4.5V and 4.5V for effective control voltages of 0.5 to 9.5V
     Muscle::pid_cfg_t pid_conf = {.p = 30.0, .i = 20.0, .d = 0.01, .lower_clamp = -4.5, .upper_clamp = 4.5}; //pid_cfg_tはPID値やセンサのインデックスなどを設定する構造体
-    Muscle::pid_cfg_t pid_conf2 = {.p = 30.0, .i = 5.0, .d = 0.01, .lower_clamp = -4.5, .upper_clamp = 4.5};
     // Muscle::pid_cfg_t pid_conf3 = {.p = 30.0, .i = 5.0, .d = 0.05, .lower_clamp = -4.5, .upper_clamp = 4.5};
 
     //Muscles are numbered by their order of labels in the setup. Indices are based on the hardware's channel numbers
@@ -88,19 +87,19 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     Muscle::muscle_cfg_t muscle_conf_2 = {.adc_index = 2, .dac_index = 10, .tension_sensor_index = 2, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"}; //mslo_mshiはmuscle_spindleがhiかloか?
 
-    Muscle::muscle_cfg_t muscle_conf_3 = {.adc_index = 5, .dac_index = 13, .tension_sensor_index = 4, .muscle_spindle_index = 16,
+    Muscle::muscle_cfg_t muscle_conf_3 = {.adc_index = 3, .dac_index = 11, .tension_sensor_index = 3, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
-    Muscle::muscle_cfg_t muscle_conf_4 = {.adc_index = 7, .dac_index = 15, .tension_sensor_index = 3, .muscle_spindle_index = 16,
+    Muscle::muscle_cfg_t muscle_conf_4 = {.adc_index = 4, .dac_index = 12, .tension_sensor_index = 4, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
-    Muscle::muscle_cfg_t muscle_conf_5 = {.adc_index = 3, .dac_index = 11, .tension_sensor_index = 6, .muscle_spindle_index = 10,
-            .pid_cfg = pid_conf2, .board = &control_board,.mslo_mshi = "mslo"}; //.pid_cfg = pid_conf2
+    Muscle::muscle_cfg_t muscle_conf_5 = {.adc_index = 5, .dac_index = 13, .tension_sensor_index = 6, .muscle_spindle_index = 10,
+            .pid_cfg = pid_conf, .board = &control_board,.mslo_mshi = "mslo"}; //.pid_cfg = pid_conf2
 
     Muscle::muscle_cfg_t muscle_conf_6 = {.adc_index = 6, .dac_index = 14, .tension_sensor_index = 5, .muscle_spindle_index = 16,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mshi"};
 
-    Muscle::muscle_cfg_t muscle_conf_7 = {.adc_index = 4, .dac_index = 12, .tension_sensor_index = 7, .muscle_spindle_index = 11,
+    Muscle::muscle_cfg_t muscle_conf_7 = {.adc_index = 7, .dac_index = 15, .tension_sensor_index = 7, .muscle_spindle_index = 11,
             .pid_cfg = pid_conf, .board = &control_board, .mslo_mshi = "mslo"}; //int *p = &x;  pはxのアドレスを指すポインタ
 
     //    Muscle::muscle_cfg_t muscle_conf_7 = {.adc_index = 7, .dac_index = 15, .tension_sensor_index = 2, .muscle_spindle_index = 9,
@@ -142,10 +141,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 //change mode : 1
-    auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
+    // auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
     //auto *top_con = new topController(0.25, 0.25, 3, 100); //rotation mode 
-    // auto *top_con = new topController(0.60, 0.40, 3, 100);
-    //  auto *top_con = new topController(0, 0, 0.60, 0.20, 10.0, 100);
+    // auto *top_con = new topController(0.80, 0.20, 3, 100);
+    auto *top_con = new topController(0, 0, 0.60, 0.20, 10.0, 100);
     //topController top_con(0.40, 0.15, 3, HZ);
     //topController top_con(0.3, 0.3, 3, HZ);
     topController::goal_pressure higher_commands = {0.1, 0.1}; //goal_pressure_m1とgoal_pressure_m2
@@ -265,8 +264,8 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
             FirstRun = false;
         }
-        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
-        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
+        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.20, .goal_activation = 0.0});
+        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.60, .goal_activation = 0.0});
         
         static bool FirstRun2 = true;
         if (FirstRun2)
@@ -288,7 +287,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     static int para_intervene_a_model = 0; //、static キーワードがローカル変数の前に使われると、その変数は関数が終了しても存在し続け、再度その関数が呼び出されたときに前回の値を保持します。
 	static int para_intervene_b_model = 0; //para_interveneはreflexの回数を表している
     
-    RateLoop *rater = new RateLoop(100, 14.0);
+    RateLoop *rater = new RateLoop(100, 14.0); //14
     //frequency of while loop will be 100 HZ, total experiment time is 16 seconds
 
     while(true)
@@ -353,7 +352,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 //change mode: 2 //タスク
-		switch(1) //switch文は、複数の条件によって処理を分岐するための制御構造です。今回は必ずcase1が実行される
+		switch(0) //switch文は、複数の条件によって処理を分岐するための制御構造です。今回は必ずcase1が実行される
         { 
             case 0: 
             {
@@ -395,7 +394,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         std::cout <<"Ia homo exci =" << reflex_commands_antagonist.res_SR  << "  Ia anta inhi =" << reflex_commands_agonist.res_RI 
                   <<"   Ib homo inhi =" << reflex_gto_antagonist.res_AI    << "  Ib anta exci =" << reflex_gto_agonist.res_RE <<std::endl;
         */
-        switch(1)  
+        switch(0)  
         {
             case 0: 
             {

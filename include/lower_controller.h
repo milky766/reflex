@@ -36,8 +36,8 @@
 // #define Ia_a_cap_model 200
 // #define Ia_anta_cap_model 100 //threshhold for Ia_anta 調整が必要
 
-#define Ia_a_cap_model 100000
-#define Ia_anta_cap_model 100000 //threshhold for Ia_anta 調整が必要
+#define Ia_a_cap_model 1000000
+#define Ia_anta_cap_model 1000000 //threshhold for Ia_anta 調整が必要
 
 #define sub_Ia_a_cap 150 //co-contraction
 #define sub_Ia_anta_cap 1.5
@@ -46,8 +46,8 @@
 #define Harden_Magnitude 0.05
 
 //追加 ひずみゲージからの電気信号を力に変換するためのパラメータ,実験で求めて入力する
-#define tension_voltage_slope_agonist -1.84
-#define tension_voltage_slope_antagonist 3.55
+#define tension_voltage_slope_agonist -17.7
+#define tension_voltage_slope_antagonist 39.4
 
 //追加 パラメータを手動入力する
 //1回目の実験、low(0.2-0.6MPa)
@@ -63,15 +63,15 @@
 
 // a_i_agonist_new = a_i_agonist*tension_voltage_slope_agonist
 
-#define a_3_agonist_new 0.369
-#define a_2_agonist_new -12.9
-#define a_1_agonist_new -0.471
-#define a_0_agonist_new -1.67
+#define a_3_agonist_new 3.545457
+#define a_2_agonist_new -123.616
+#define a_1_agonist_new -4.52271
+#define a_0_agonist_new -16.084
 
-#define a_3_antagonist_new 0.871
-#define a_2_antagonist_new 1.24
-#define a_1_antagonist_new -0.129
-#define a_0_antagonist_new 22.42
+#define a_3_antagonist_new 9.664398
+#define a_2_antagonist_new 13.72598
+#define a_1_antagonist_new -1.43671
+#define a_0_antagonist_new 248.8137
 
 #define  natural_length_slope_agonist -60.1
 #define  natural_length_slope_antagonist -70.3
