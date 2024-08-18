@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <iostream>
 #define MS_ACTIVE_TIME 20
+//#define MS_ACTIVE_TIME 10
 #define GTO_ACTIVE_TIME 20
 #define MS_CYCLE_TIME 60
 #define GTO_CYCLE_TIME 60
@@ -36,8 +37,8 @@
 // #define Ia_a_cap_model 200
 // #define Ia_anta_cap_model 100 //threshhold for Ia_anta 調整が必要
 
-#define Ia_a_cap_model 1000000
-#define Ia_anta_cap_model 1000000 //threshhold for Ia_anta 調整が必要
+#define Ia_a_cap_model 80
+#define Ia_anta_cap_model 150 //threshhold for Ia_anta 調整が必要
 
 #define sub_Ia_a_cap 150 //co-contraction
 #define sub_Ia_anta_cap 1.5
@@ -158,6 +159,7 @@ public:
         double muscle_len_model, muscle_v_model, muscle_filtered_v_model;
         double natural_len_model,deformation_model;
         double muscle_tension_model;
+        double deformation_formula_positive_model, deformation_formula_negative_model;
     };
 
     struct Base_sensor_info
@@ -201,8 +203,12 @@ public:
     Sensor_info_model get_antagonist_sensor_info_model();
 
     double calculateLength(int muscle_idx, uint16_t voltage, double pressure);
+    double calculateLength_formula_positive(int muscle_idx, uint16_t voltage, double pressure);
+    double calculateLength_formula_negative(int muscle_idx, uint16_t voltage, double pressure);
     double calculateNaturalLength(int muscle_idx, double pressure);
     double calculateDeformation(int muscle_idx, uint16_t voltage, double pressure);
+    
+    //double IIR_Filter(double ) 作るかもhttps://haratta-tech-lab.com/getting-started-iir-filter/
 
     uint64_t micros();
 
@@ -297,6 +303,8 @@ private:
     double agonist_len_model_, temp_agonist_len_model_, agonist_v_model_, filtered_agonist_v_model_;
     double agonist_natural_len_model_, agonist_deformation_model_;
     double antagonist_natural_len_model_, antagonist_deformation_model_;
+    double agonist_deformation_formula_positive_model_, agonist_deformation_formula_negative_model_;
+    double antagonist_deformation_formula_positive_model_, antagonist_deformation_formula_negative_model_;
     double antagonist_len_model_, temp_antagonist_len_model_, antagonist_v_model_, filtered_antagonist_v_model_;
     double base_agonist_len_model_, base_antagonist_len_model_;
 

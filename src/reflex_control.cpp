@@ -141,10 +141,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 //change mode : 1
-    // auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
+    auto *top_con = new topController(0.4);//new演算子を使用すると、指定されたコンストラクタが呼び出され、動的メモリに新しいオブジェクトが作成されます。
     //auto *top_con = new topController(0.25, 0.25, 3, 100); //rotation mode 
     // auto *top_con = new topController(0.80, 0.20, 3, 100);
-    auto *top_con = new topController(0, 0, 0.60, 0.20, 10.0, 100);
+    //auto *top_con = new topController(0, 0, 0.60, 0.20, 10.0, 100);
     //topController top_con(0.40, 0.15, 3, HZ);
     //topController top_con(0.3, 0.3, 3, HZ);
     topController::goal_pressure higher_commands = {0.1, 0.1}; //goal_pressure_m1とgoal_pressure_m2
@@ -199,6 +199,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     double *natural_len_left_model = new double[100000];
     double *deformation_left_model = new double[100000];
     double *deformation_right_model = new double[100000];
+    // double *deformation_left_formula_positive = new double[100000];
+    // double *deformation_left_formula_negative = new double[100000];
+    // double *deformation_right_formula_positive = new double[100000];
+    // double *deformation_right_formula_negative = new double[100000];
 
 
     double *g_pressure_1 = new double[100000];
@@ -260,19 +264,13 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
             base_anta_len_model = low_con->getBaseSensorInfo_model().base_antagonist_len;
             base_a_tension = low_con->getBaseSensorInfo().base_agonist_tension;
             base_anta_tension = low_con->getBaseSensorInfo().base_antagonist_tension;
+            base_angle = control_board.getPotentiometerData(potentiometer_idx);
 
 
             FirstRun = false;
         }
-        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.20, .goal_activation = 0.0});
-        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.60, .goal_activation = 0.0});
-        
-        static bool FirstRun2 = true;
-        if (FirstRun2)
-        {
-            base_angle = control_board.getPotentiometerData(potentiometer_idx);
-            FirstRun2 = false;
-        }
+        muscle_5->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
+        muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
 
 	}
     //muscle_7->updateMuscle({.control_mode = Muscle::ControlMode::pressure, .goal_pressure = 0.40, .goal_activation = 0.0});
@@ -352,7 +350,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
 
 //change mode: 2 //タスク
-		switch(0) //switch文は、複数の条件によって処理を分岐するための制御構造です。今回は必ずcase1が実行される
+		switch(1) //switch文は、複数の条件によって処理を分岐するための制御構造です。今回は必ずcase1が実行される
         { 
             case 0: 
             {
@@ -394,7 +392,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         std::cout <<"Ia homo exci =" << reflex_commands_antagonist.res_SR  << "  Ia anta inhi =" << reflex_commands_agonist.res_RI 
                   <<"   Ib homo inhi =" << reflex_gto_antagonist.res_AI    << "  Ib anta exci =" << reflex_gto_agonist.res_RE <<std::endl;
         */
-        switch(0)  
+        switch(1)  
         {
             case 0: 
             {
@@ -488,10 +486,14 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         natural_len_left_model[sample_count] = sensor_info_agonist_model.natural_len_model;
         deformation_left_model[sample_count] = sensor_info_agonist_model.deformation_model;
 
+        // deformation_left_formula_positive[sample_count] = sensor_info_agonist_model.deformation_formula_positive_model;
+        // deformation_left_formula_negative[sample_count] = sensor_info_agonist_model.deformation_formula_negative_model;
+        // deformation_right_formula_positive[sample_count] = sensor_info_antagonist_model.deformation_formula_positive_model;
+        // deformation_right_formula_negative[sample_count] = sensor_info_antagonist_model.deformation_formula_negative_model;
 
         pressure_data_right[sample_count] = s_7.current_pressure;
 
-        angle[sample_count] = control_board.getPotentiometerData(potentiometer_idx);
+        angle[sample_count] = control_board.getPotentiometerData(potentiometer_idx) - base_angle;
 
         ago_SR[sample_count] = reflex_commands_agonist.res_SR;
         ago_SR_model[sample_count] = reflex_commands_agonist_model.res_SR;
@@ -587,6 +589,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
          <<"deformation_right_model,"
          <<"natural_length_left_model,"
          <<"deformation_left_model,"
+        //  <<"deformation_right_formula_positive,"
+        //  <<"deformation_right_formula_negative,"
+        //  <<"deformation_left_formula_positive,"
+        //  <<"deformation_left_formula_negative,"
          << "pressure_right," <<"g_pressure_2,"<< "start of cycle," << "angle," 
          << "m5_Ia_+,"<< "m5_Ia_model_+," << "m5_Ia_-,"<< "m5_Ia_model_-," << "m5_Ib_-," << "m5_Ib_+," 
          << "m7_Ia_+," << "m7_Ia_model_+," << "m7_Ia_-,"<< "m7_Ia_model_-," << "m7_Ib_-," << "m7_Ib_+," 
@@ -602,7 +608,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
          << std::endl;
          
     //for (int i = 0; i <= sample_count - 1; i++)
-    for (int i = 200; i <= sample_count - 1; i++)
+    for (int i = 0; i <= sample_count - 1; i++)
     {
         file 
             //  << i << "\t" << tension_data_left[i] << "\t" << ms_data_left[i] << "\t" 
@@ -681,6 +687,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     delete[] natural_len_left_model;
     delete[] deformation_left_model;
     delete[] deformation_right_model;
+    // delete[] deformation_left_formula_positive;
+    // delete[] deformation_left_formula_negative;
+    // delete[] deformation_right_formula_positive;
+    // delete[] deformation_right_formula_negative;
 
 
 

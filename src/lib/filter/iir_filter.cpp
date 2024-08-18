@@ -10,23 +10,23 @@ IIRFilter::IIRFilter(double default_value)
 }
 IIRFilter::~IIRFilter() {}
 
-double IIRFilter::sample(double value)
-{
-    x_delay_2 = x_delay_1; x_delay_1 = x_cur;
-    if (std::isnormal(value)) {
-        x_cur = value;
-    } else {
-        x_cur = 0.0;
-    }
-    y_output = 0.067455*x_cur + 0.134911*x_delay_1 + 0.067455*x_delay_2
-               + 1.14298*y_delay_1 - 0.412802*y_delay_2;
-    y_delay_2 = y_delay_1; y_delay_1 = y_output;
-    return y_output;
-}
 // double IIRFilter::sample(double value)
 // {
-// return value;
+//     x_delay_2 = x_delay_1; x_delay_1 = x_cur;
+//     if (std::isnormal(value)) {
+//         x_cur = value;
+//     } else {
+//         x_cur = 0.0;
+//     }
+//     y_output = 0.067455*x_cur + 0.134911*x_delay_1 + 0.067455*x_delay_2
+//                + 1.14298*y_delay_1 - 0.412802*y_delay_2;
+//     y_delay_2 = y_delay_1; y_delay_1 = y_output;
+//     return y_output;
 // }
+double IIRFilter::sample(double value)
+{
+return value;
+}
 
 //double IIRFilter::getResult() {
 //    /*
