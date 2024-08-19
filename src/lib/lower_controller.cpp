@@ -131,8 +131,8 @@ void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
     filtered_agonist_v_model_ = agonist_filter_model_->sample(agonist_v_model_);
     filtered_antagonist_v_model_ = antagonist_filter_model_->sample(antagonist_v_model_);
  
-    MaxTracker_.a_Ia = std::max(filtered_agonist_v_/2000, MaxTracker_.a_Ia); //2000の数値は反射の大きさを見ながらキャリブレーションするしかない
-    MaxTracker_.anta_Ia = std::max(filtered_antagonist_v_/200, MaxTracker_.anta_Ia);
+    MaxTracker_.a_Ia = std::max(filtered_agonist_v_/300, MaxTracker_.a_Ia); //2000の数値は反射の大きさを見ながらキャリブレーションするしかない
+    MaxTracker_.anta_Ia = std::max(filtered_antagonist_v_/300, MaxTracker_.anta_Ia);
 
      
     MaxTracker_model_.a_Ia = std::max(filtered_agonist_v_model_/800, MaxTracker_model_.a_Ia); 
@@ -179,8 +179,8 @@ void SpinalCord::update_sensor_info(int &parameter_a, int &parameter_b)
     	
     
 
-    //check_if_stretched(parameter_a);
-    check_if_stretched_model(parameter_a);
+    check_if_stretched(parameter_a);
+    //check_if_stretched_model(parameter_a);
     //check_if_Hardern();
     //check_if_force(parameter_b);
     

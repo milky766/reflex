@@ -233,12 +233,11 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
     double alpha_m1, alpha_m2;
 
     double PreAlpha_m1, PreAlpha_m2;
-    int EntryFlag_Ia, ExitFlag_Ia;
+    // int EntryFlag_Ia, ExitFlag_Ia;
     int EntryFlag_Ia_model, ExitFlag_Ia_model;
     int EntryFlag_Ib, ExitFlag_Ib;
 
-    // int temp_FeedbackFlag_Ia_model = 0;
-    int temp_FeedbackFlag_Ia = 0;
+    int temp_FeedbackFlag_Ia_model = 0;
     int temp_FeedbackFlag_Ib = 0;
 
     bool result;
@@ -298,27 +297,26 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         //     FirstRun = false;
         // }
         
-        EntryFlag_Ia = 0;
-        ExitFlag_Ia = 0;
+        // EntryFlag_Ia = 0;
+        // ExitFlag_Ia = 0;
                 
-        // EntryFlag_Ia_model = 0;
-        // ExitFlag_Ia_model = 0;
+        EntryFlag_Ia_model = 0;
+        ExitFlag_Ia_model = 0;
         
         EntryFlag_Ib = 0;
         ExitFlag_Ib = 0;
         
-        temp_FeedbackFlag_Ia = low_con->FeedbackFlag_Ia; 
-        //temp_FeedbackFlag_Ia_model = low_con->FeedbackFlag_Ia_model; 
+        temp_FeedbackFlag_Ia_model = low_con->FeedbackFlag_Ia_model; 
         temp_FeedbackFlag_Ib = low_con->FeedbackFlag_Ib;
 
         control_board.update_inputs();        
 
         low_con->update_sensor_info(para_intervene_a,para_intervene_b);
         
-        if(temp_FeedbackFlag_Ia != low_con->FeedbackFlag_Ia && low_con->FeedbackFlag_Ia == 1){
-            EntryFlag_Ia = 1;
-        }else if(temp_FeedbackFlag_Ia != low_con->FeedbackFlag_Ia && low_con->FeedbackFlag_Ia == 0){
-            ExitFlag_Ia = 1;
+        if(temp_FeedbackFlag_Ia_model != low_con->FeedbackFlag_Ia_model && low_con->FeedbackFlag_Ia_model == 1){
+            EntryFlag_Ia_model = 1;
+        }else if(temp_FeedbackFlag_Ia_model != low_con->FeedbackFlag_Ia_model && low_con->FeedbackFlag_Ia_model == 0){
+            ExitFlag_Ia_model = 1;
         }
 
         if(temp_FeedbackFlag_Ib != low_con->FeedbackFlag_Ib && low_con->FeedbackFlag_Ib == 1){
@@ -327,7 +325,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
             ExitFlag_Ib = 1;
         }
 
-        if(EntryFlag_Ia == 1){
+        if(EntryFlag_Ia_model == 1){
             PreAlpha_m1 = alpha_m1;
             PreAlpha_m2 = alpha_m2;
         }
@@ -339,7 +337,7 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
 
         //result = temp_FeedbackFlag != low_con->FeedbackFlag_;
 
-                std::cout << "******EntryFlag_Ia = " << EntryFlag_Ia << "*****ExitFlag_Ia = " << ExitFlag_Ia << "*****temp_FeedbackFlag_Ia =" << temp_FeedbackFlag_Ia << std::endl;
+                std::cout << "******EntryFlag_Ia = " << EntryFlag_Ia_model << "*****ExitFlag_Ia = " << ExitFlag_Ia_model << "*****temp_FeedbackFlag_Ia =" << temp_FeedbackFlag_Ia_model << std::endl;
                 std::cout << "******EntryFlag_Ib = " << EntryFlag_Ib << "*****ExitFlag_Ib = " << ExitFlag_Ib << "*****temp_FeedbackFlag_Ib =" << temp_FeedbackFlag_Ib << std::endl;
 
                 
@@ -378,10 +376,10 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
         }	 
 		//higher_commands = top_con->get_pattern(RHYTHMIC, para_intervene, alpha_m1, alpha_m2);
         
-        reflex_commands_agonist = low_con->agonist_Ia_innervation(); //maxtrackerの値を更新したり、CoConrinatorの値を更新したりする
-        reflex_commands_antagonist = low_con->antagonist_Ia_innervation();
-        // reflex_commands_agonist_model = low_con->agonist_Ia_innervation_model(); 
-        // reflex_commands_antagonist_model = low_con->antagonist_Ia_innervation_model();
+        // reflex_commands_agonist = low_con->agonist_Ia_innervation(); //maxtrackerの値を更新したり、CoConrinatorの値を更新したりする
+        // reflex_commands_antagonist = low_con->antagonist_Ia_innervation();
+        reflex_commands_agonist_model = low_con->agonist_Ia_innervation_model(); 
+        reflex_commands_antagonist_model = low_con->antagonist_Ia_innervation_model();
         reflex_gto_agonist = low_con->agonist_Ib_innervation();
         reflex_gto_antagonist = low_con->antagonist_Ib_innervation();
         
@@ -402,18 +400,18 @@ static ControlBoard control_board; //ControlBoardクラスのインスタンスc
                 alpha_m2 = higher_commands.goal_pressure_m2;
                 break;
             }
-            case 1:
-            {
-                alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist.res_SR - reflex_commands_antagonist.res_RI;
-                alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist.res_SR - reflex_commands_agonist.res_RI;
-                break;
-            }
             // case 1:
             // {
-            //     alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist_model.res_SR - reflex_commands_antagonist_model.res_RI;
-            //     alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist_model.res_SR - reflex_commands_agonist_model.res_RI;
+            //     alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist.res_SR - reflex_commands_antagonist.res_RI;
+            //     alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist.res_SR - reflex_commands_agonist.res_RI;
             //     break;
             // }
+            case 1:
+            {
+                alpha_m1 = higher_commands.goal_pressure_m1 + reflex_commands_agonist_model.res_SR - reflex_commands_antagonist_model.res_RI;
+                alpha_m2 = higher_commands.goal_pressure_m2 + reflex_commands_antagonist_model.res_SR - reflex_commands_agonist_model.res_RI;
+                break;
+            }
             case 2:
             {
                 alpha_m1 = higher_commands.goal_pressure_m1 - reflex_gto_agonist.res_AI + reflex_gto_antagonist.res_RE;

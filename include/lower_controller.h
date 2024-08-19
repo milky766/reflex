@@ -31,13 +31,10 @@
 #define TensionMapping_Slope 0.848869
 #define TensionMapping_Intercept 0.426219
 
-#define Ia_a_cap 260
+#define Ia_a_cap 25
 #define Ia_anta_cap 2500 //threshhold for Ia_anta 調整が必要
 
-// #define Ia_a_cap_model 200
-// #define Ia_anta_cap_model 100 //threshhold for Ia_anta 調整が必要
-
-#define Ia_a_cap_model 80
+#define Ia_a_cap_model 70
 #define Ia_anta_cap_model 150 //threshhold for Ia_anta 調整が必要
 
 #define sub_Ia_a_cap 150 //co-contraction
